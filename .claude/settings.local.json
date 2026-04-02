@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmux browser:*)",
+      "Bash(lsof -ti:8080)",
+      "Bash(xargs kill:*)",
+      "Bash(lsof -ti:12005)",
+      "Bash(curl -s http://localhost:12000/api/services)",
+      "Bash(python3 -c \":*)",
+      "Bash(curl -s -X POST http://localhost:12000/api/start -H \"Content-Type: application/json\" -d '{\"\"name\"\":\"\"claude-skills\"\"}')",
+      "Bash(gh issue:*)",
+      "Bash(cmux list:*)",
+      "Bash(cmux tree:*)",
+      "Bash(cmux new-workspace:*)",
+      "Bash(cmux new-pane:*)",
+      "Bash(cmux rename-tab:*)",
+      "Bash(cmux send:*)"
+    ]
+  }
+}

@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medium 블로그 분석 아카이브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --surface2: #F3F0EA;
+    --border: #E8E4DC;
+    --text: #2C2C2C;
+    --text-muted: #6B6B6B;
+    --accent: #8B6914;
+    --accent-dim: rgba(139,105,20,0.08);
+    --tag-bg: #EBF5FF;
+    --tag-text: #2B6CB0;
+    --cat-bg: #E8F5ED;
+    --cat-text: #2D8A4E;
+    --orange: #C4883A;
+    --pink: #D4577A;
+    --cyan: #2D9D8F;
+    --purple: #7C5CBF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    padding: 48px 0 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: #FFFFFF;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .header p {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 20px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Layout — full width */
+  .container {
+    margin: 0;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 28px;
+  }
+
+  /* Sidebar */
+  .sidebar { display: flex; flex-direction: column; gap: 24px; }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Search */
+  .search-box {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--text-muted); }
+
+  /* Categories */
+  .cat-list { display: flex; flex-direction: column; gap: 4px; }
+  .cat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 14px;
+  }
+  .cat-item:hover, .cat-item.active { background: var(--accent-dim); }
+  .cat-item.active { color: var(--accent); font-weight: 600; }
+  .cat-count {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  /* Tag Cloud */
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .tag:hover, .tag.active {
+    border-color: var(--tag-text);
+    background: rgba(43,108,176,0.12);
+  }
+  .tag .tag-count {
+    margin-left: 4px;
+    opacity: 0.6;
+  }
+  /* Tag sizes */
+  .tag.size-lg { font-size: 15px; padding: 6px 14px; font-weight: 600; }
+  .tag.size-md { font-size: 13px; padding: 5px 13px; }
+  .tag.size-sm { font-size: 12px; }
+
+  /* Word Cloud */
+  .word-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .word {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    opacity: 0.8;
+  }
+  .word:hover { opacity: 1; transform: scale(1.1); }
+
+  /* Main Content */
+  .main { display: flex; flex-direction: column; gap: 16px; }
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .results-count {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .active-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .filter-badge:hover { text-decoration: line-through; }
+
+  /* Article Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .card-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    flex: 1;
+  }
+  .card-title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .card-title a:hover { color: var(--accent); }
+  .card-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+  .card-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .card-tag {
+    padding: 3px 10px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 16px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .card-tag:hover { background: rgba(43,108,176,0.12); }
+  .card-cat {
+    padding: 3px 10px;
+    background: var(--cat-bg);
+    color: var(--cat-text);
+    border-radius: 16px;
+    font-size: 11px;
+  }
+  .card-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .card-link {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .card-link:hover { text-decoration: underline; }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* Viewer Overlay */
+  .viewer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px;
+    overflow-y: auto;
+  }
+  .viewer-overlay.open { display: flex; }
+  .viewer-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 860px;
+    width: 100%;
+    padding: 40px 48px;
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+  }
+  .viewer-close {
+    position: sticky;
+    top: 0;
+    float: right;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.15s;
+  }
+  .viewer-close:hover { background: var(--border); color: var(--text); }
+  .viewer-loading {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--text-muted);
+  }
+  .viewer-loading .spinner {
+    display: inline-block;
+    width: 28px; height: 28px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Markdown rendered content */
+  .md-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; line-height: 1.3; color: var(--text); }
+  .md-content h2 { font-size: 20px; font-weight: 700; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .md-content h3 { font-size: 17px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+  .md-content h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text-muted); }
+  .md-content p { margin: 12px 0; font-size: 15px; line-height: 1.8; color: var(--text); }
+  .md-content blockquote {
+    margin: 16px 0;
+    padding: 12px 20px;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .md-content blockquote p { margin: 4px 0; }
+  .md-content ul, .md-content ol { margin: 12px 0; padding-left: 24px; }
+  .md-content li { margin: 6px 0; font-size: 15px; line-height: 1.7; }
+  .md-content strong { color: var(--text); font-weight: 600; }
+  .md-content code {
+    background: var(--surface2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: var(--tag-text);
+  }
+  .md-content pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  .md-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .md-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .md-content th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .md-content td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+    vertical-align: top;
+  }
+  .md-content tr:hover td { background: rgba(139,105,20,0.04); }
+  .md-content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .md-content a { color: var(--accent); text-decoration: none; }
+  .md-content a:hover { text-decoration: underline; }
+  .md-content em { color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container {
+      grid-template-columns: 1fr;
+      padding: 20px 16px;
+    }
+    .header { padding: 32px 16px 24px; }
+    .header h1 { font-size: 22px; }
+    .stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Viewer Overlay -->
+<div class="viewer-overlay" id="viewerOverlay" onclick="if(event.target===this)closeViewer()">
+  <div class="viewer-container">
+    <button class="viewer-close" onclick="closeViewer()">&times;</button>
+    <div class="md-content" id="viewerContent">
+      <div class="viewer-loading"><div class="spinner"></div><p>로딩 중...</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Medium 블로그 분석 아카이브</h1>
+  <p>기술 블로그를 읽고, 분석하여 이해하기 쉬운 보고서로 재구성합니다</p>
+  <div style="margin-top:12px"><a href="graph.html" style="color:#8B6914;text-decoration:none;font-size:13px;font-weight:500;padding:6px 16px;border:1px solid #E8E4DC;border-radius:6px;transition:all 0.15s">Knowledge Graph</a></div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num" id="totalDocs">0</div>
+      <div class="stat-label">문서</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="totalCats">0</div>
+      <div class="stat-label">카테고리</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="totalTags">0</div>
+      <div class="stat-label">태그</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Search -->
+    <div class="panel">
+      <div class="panel-title">&#x1F50D; 검색</div>
+      <input type="text" class="search-box" id="searchInput" placeholder="키워드로 검색..." />
+    </div>
+
+    <!-- Categories -->
+    <div class="panel">
+      <div class="panel-title">&#x1F4C2; 카테고리</div>
+      <div class="cat-list" id="catList"></div>
+    </div>
+
+    <!-- Tag Cloud -->
+    <div class="panel">
+      <div class="panel-title">&#x1F3F7;&#xFE0F; 태그 클라우드</div>
+      <div class="tag-cloud" id="tagCloud"></div>
+    </div>
+
+    <!-- Word Cloud -->
+    <div class="panel">
+      <div class="panel-title">&#x2601;&#xFE0F; 워드 클라우드</div>
+      <div class="word-cloud" id="wordCloud"></div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="results-header">
+      <div class="results-count" id="resultsCount"></div>
+      <div class="active-filters" id="activeFilters"></div>
+    </div>
+    <div id="articleList"></div>
+  </div>
+</div>
+
+<script>
+// ==================== MARKDOWN PARSER ====================
+function parseMd(md) {
+  // Tables
+  md = md.replace(/^(\|.+\|)\n(\|[\s:|-]+\|)\n((?:\|.+\|\n?)*)/gm, (_, header, sep, body) => {
+    const ths = header.split('|').filter(c=>c.trim()).map(c=>`<th>${c.trim()}</th>`).join('');
+    const rows = body.trim().split('\n').map(r => {
+      const tds = r.split('|').filter(c=>c.trim()).map(c=>`<td>${inlineMd(c.trim())}</td>`).join('');
+      return `<tr>${tds}</tr>`;
+    }).join('');
+    return `<table><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table>`;
+  });
+  const lines = md.split('\n');
+  let html = '', inCode = false, codeLang = '', codeBlock = '', inList = false, listType = '';
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.startsWith('```')) {
+      if (!inCode) { inCode = true; codeLang = line.slice(3).trim(); codeBlock = ''; }
+      else { html += `<pre><code>${esc(codeBlock)}</code></pre>`; inCode = false; }
+      continue;
+    }
+    if (inCode) { codeBlock += (codeBlock?'\n':'') + line; continue; }
+    if (inList && !/^\s*[-*]\s/.test(line) && !/^\s*\d+\.\s/.test(line) && line.trim() !== '') {
+      html += `</${listType}>`; inList = false;
+    }
+    if (/^#{1,4}\s/.test(line)) {
+      const lvl = line.match(/^#+/)[0].length;
+      html += `<h${lvl}>${inlineMd(line.replace(/^#+\s/,''))}</h${lvl}>`;
+    } else if (/^>\s/.test(line)) {
+      let bq = line.replace(/^>\s?/,'');
+      while (i+1<lines.length && /^>\s?/.test(lines[i+1])) { i++; bq += '\n'+lines[i].replace(/^>\s?/,''); }
+      html += `<blockquote>${bq.split('\n').map(l=>`<p>${inlineMd(l)}</p>`).join('')}</blockquote>`;
+    } else if (/^\s*[-*]\s/.test(line)) {
+      if (!inList || listType!=='ul') { if(inList) html+=`</${listType}>`; html+='<ul>'; inList=true; listType='ul'; }
+      html += `<li>${inlineMd(line.replace(/^\s*[-*]\s/,''))}</li>`;
+    } else if (/^\s*\d+\.\s/.test(line)) {
+      if (!inList || listType!=='ol') { if(inList) html+=`</${listType}>`; html+='<ol>'; inList=true; listType='ol'; }
+      html += `<li>${inlineMd(line.replace(/^\s*\d+\.\s/,''))}</li>`;
+    } else if (/^---\s*$/.test(line)) {
+      html += '<hr>';
+    } else if (line.trim() === '') {
+      // skip empty
+    } else {
+      html += `<p>${inlineMd(line)}</p>`;
+    }
+  }
+  if (inList) html += `</${listType}>`;
+  if (inCode) html += `<pre><code>${esc(codeBlock)}</code></pre>`;
+  return html;
+}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function inlineMd(s) {
+  return s
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+}
+
+// ==================== DATA ====================
+// 새 보고서 추가 시 이 배열에 항목을 추가하면 됩니다
+const articles = [
+  {
+    id: 1,
+    title: "아젠틱 코딩 프레임워크 대격돌: Superpowers vs. BMAD vs. SpecKit vs. GSD vs. OpenSpec",
+    description: "5개 아젠틱 코딩 프레임워크(BMAD, SpecKit, OpenSpec, GSD, Superpowers)의 철학, 구조, 강점/약점을 비교 분석. 상황별 선택 가이드와 하이브리드 조합 전략 포함.",
+    category: "AI/에이전트 엔지니어링",
+    tags: ["agentic-coding", "framework-comparison", "AI-agent", "context-engineering", "TDD"],
+    author: "Rick Hightower",
+    date: "2026-03-18",
+    path: "agentic-framework-showdown/report.md",
+    originalUrl: "https://medium.com/@richardhightower/the-great-framework-showdown-superpowers-vs-bmad-vs-speckit-vs-gsd-360983101c10",
+    keywords: ["바이브코딩", "에이전트", "프레임워크", "컨텍스트", "웨이브", "병렬실행", "TDD", "스펙", "브라운필드", "그린필드", "워크플로우", "서브에이전트", "토큰", "품질", "자동화", "규율", "엔터프라이즈", "델타스펙", "게이트", "파이프라인"]
+  },
+  {
+    id: 2,
+    title: "워크플로우를 바꾸는 Claude Code의 새로운 슬래시 커맨드 5가지",
+    description: "Claude Code에 추가된 /effort, /loop, /copy, /color, /simplify, /batch 등 슬래시 커맨드의 사용법과 실제 워크플로우 활용 시나리오를 정리한 실용 가이드.",
+    category: "개발 도구/생산성",
+    tags: ["claude-code", "slash-commands", "developer-tools", "workflow", "productivity"],
+    author: "Joe Njenga",
+    date: "2026-03-18",
+    path: "claude-code-slash-commands/report.md",
+    originalUrl: "https://medium.com/@joe.njenga/5-new-claude-code-slash-commands-that-are-making-workflows-better-7bd416a5859a",
+    keywords: ["슬래시커맨드", "에이전트", "병렬실행", "코드리뷰", "마이그레이션", "자동화", "워크플로우", "DX", "토큰", "세션", "프롬프트", "디버깅", "리팩토링", "CLI", "Anthropic"]
+  },
+  {
+    id: 3,
+    title: "NotebookLM으로 어떤 기술이든 학습하는 11단계 워크플로우",
+    description: "Google NotebookLM을 활용한 체계적 기술 학습 시스템. 5개 Phase, 11 Step으로 구성된 워크플로우를 DDIA 책을 예시로 검증. 삼각측량 학습법과 능동적 질문 기반 접근.",
+    category: "학습/생산성",
+    tags: ["NotebookLM", "learning-workflow", "active-learning", "AI-tools", "knowledge-management"],
+    author: "Soultntoure",
+    date: "2024-12-23",
+    path: "notebooklm-learning-workflow/report.md",
+    originalUrl: "https://medium.com/towards-artificial-intelligence/the-notebooklm-workflow-that-changed-how-i-learn-any-technology-373f430a17e5",
+    keywords: ["학습", "NotebookLM", "삼각측량", "능동학습", "소스관리", "팟캐스트", "퀴즈", "파인만기법", "지식관리", "DDIA", "기술서적", "구글", "AI도구", "복습", "워크플로우"]
+  },
+  {
+    id: 4,
+    title: "Boris Cherny의 Claude Code 팁이 하나의 스킬이 되었다 — 전체 컬렉션이 밝히는 것",
+    description: "Claude Code 제작자 Boris Cherny의 57개 팁(8개 스레드)을 스킬로 컴파일한 결과 분석. 팁은 메뉴가 아닌 스택 — Part 3-5의 과소평가된 커스터마이징·격리·복합 연산 계층을 심층 분석. 7인 팀 1주 실전 운영 결과와 12주 순차 도입 전략.",
+    category: "개발 도구/생산성",
+    tags: ["claude-code", "claude-code-skills", "workflow-optimization", "parallel-agents", "worktree", "boris-cherny"],
+    author: "Reza Rezvani",
+    date: "2026-03-23",
+    path: "boris-cherny-claude-code-tips-skill/report.md",
+    originalUrl: "https://alirezarezvani.medium.com/boris-chernys-claude-code-tips-are-now-a-skill-here-is-what-the-complete-collection-reveals-b410a942636b",
+    keywords: ["Boris Cherny", "Claude Code", "스킬", "병렬에이전트", "worktree", "CLAUDE.md", "Plan모드", "simplify", "batch", "Output Styles", "Custom Agents", "Sandboxing", "코드리뷰", "마이그레이션", "워크플로우", "12주도입", "스택의존성"]
+  },
+  {
+    id: 5,
+    title: "CCA Scenario Deep Dive Series — 시리즈 인덱스 (7편)",
+    description: "Rick Hightower의 CCA 시험 시나리오 딥다이브 시리즈 전체 인덱스. Foundations 가이드 + 6개 프로덕션 시나리오 분석. 시리즈 관통 안티패턴 vs 올바른 패턴 대조표, 5개 도메인별 매핑.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "anthropic", "certification", "agentic-architecture", "MCP", "claude-code", "prompt-engineering", "context-management", "tool-design", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-04-02",
+    path: "cca-scenario-deep-dive/report.md",
+    originalUrl: "https://medium.com/@richardhightower",
+    keywords: ["CCA", "Claude Certified Architect", "시나리오 딥다이브", "시리즈 인덱스", "Anthropic 자격증"]
+  },
+  {
+    id: 6,
+    title: "[1/8] CCA Foundations 시험 완벽 가이드",
+    description: "Anthropic 최초 전문 자격증 CCA Foundations 시험의 형식, 5개 역량 도메인, 6개 시나리오, 5가지 멘탈 모델, 안티패턴 카탈로그, 4주 학습 계획.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "anthropic", "certification", "agentic-architecture", "MCP"],
+    author: "Rick Hightower",
+    date: "2026-03-25",
+    path: "cca-foundations-exam-guide/report.md",
+    originalUrl: "https://medium.com/towards-artificial-intelligence/claude-certified-architect-the-complete-guide-to-passing-the-cca-foundations-exam-9665ce7342a8",
+    keywords: ["CCA Foundations", "Anthropic 자격증", "에이전트 아키텍처", "MCP", "멘탈모델", "4주학습계획", "lost in the middle", "prompt caching", "batch API", "안티패턴"]
+  },
+  {
+    id: 7,
+    title: "[2/8] CCA 고객 지원 에이전트 시나리오 — 에스컬레이션 로직, 비용 최적화",
+    description: "자기보고 신뢰도 함정, 결정론적 비즈니스 규칙 에스컬레이션, Prompt Caching(90%) vs Batch API(50%), PCI-DSS 프로그래밍적 강제, 구조화된 JSON 핸드오프.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "customer-support", "escalation-logic", "prompt-caching", "agentic-architecture", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-03-25",
+    path: "cca-customer-support-agent/report.md",
+    originalUrl: "https://medium.com/@richardhightower/claude-code-certification-exam-prep-mastering-the-customer-support-resolution-agent-scenario-5b82a086eaf8",
+    keywords: ["고객 지원 에이전트", "에스컬레이션", "자기보고 신뢰도", "Prompt Caching", "Batch API", "PCI-DSS", "4-5 도구 규칙", "Swiss Army Agent"]
+  },
+  {
+    id: 8,
+    title: "[3/8] CCA 코드 생성 시나리오 — 컨텍스트 열화, CLAUDE.md, -p 플래그",
+    description: "컨텍스트 열화는 용량이 아닌 주의력 문제. CLAUDE.md 프로젝트/사용자 레벨 구분, -p/--bare CI/CD 통합, 커스텀 스킬, 코디네이터 패턴.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "code-generation", "claude-code", "context-management", "CLAUDE-md", "ci-cd", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-03-27",
+    path: "cca-code-generation-scenario/report.md",
+    originalUrl: "https://medium.com/towards-artificial-intelligence/cca-exam-prep-mastering-the-code-generation-with-claude-code-scenario-95f2d8d06742",
+    keywords: ["코��� 생성", "context degradation", "컨텍스트 열화", "attention dilution", "lost in the middle", "CLAUDE.md", "-p 플래그", "--bare", "코디네이터 패턴"]
+  },
+  {
+    id: 9,
+    title: "[4/8] CCA 멀티에이전트 리서치 시나리오 — 허브앤스포크, 컨텍스트 격리",
+    description: "시험 가중치 60% 커버. 허브앤스포크 코디네이터, 서브에이전트 컨텍스트 격리(상속 불가), 4-5개 도구 규칙, 사일런트 실패와 구조화된 에러 컨텍스트.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "multi-agent", "agentic-architecture", "context-isolation", "tool-design", "hub-and-spoke", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-03-31",
+    path: "cca-multi-agent-research/report.md",
+    originalUrl: "https://medium.com/@richardhightower/cca-exam-prep-mastering-the-multi-agent-research-system-scenario-aa0c446a5e7d",
+    keywords: ["멀티에이전트", "hub-and-spoke", "허브앤스포크", "컨텍스트 격리", "context isolation", "슈퍼에이전트", "사일런트 실패", "MCP 프리미티브", "negative bounds"]
+  },
+  {
+    id: 10,
+    title: "[5/8] CCA CI/CD 시나리오 — -p, --bare, JSON 스키마, ZDR",
+    description: "필수 플래그(-p, --bare, --output-format json), ZDR 제약(Batch API 불가), Prompt Caching 비용(캐시 읽기 90% 절감), 도구 샌드박싱(--tools vs --allowedTools).",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "ci-cd", "claude-code", "headless-mode", "prompt-caching", "batch-api", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-04-01",
+    path: "cca-cicd-scenario/report.md",
+    originalUrl: "https://medium.com/@richardhightower/claude-certified-architect-master-the-ci-cd-scenario-for-the-cca-foundations-exam-the-flags-de2478a346da",
+    keywords: ["CI/CD", "-p 플래그", "--bare", "--output-format json", "ZDR", "Zero Data Retention", "Prompt Caching", "Batch API", "validation-retry loop", "파이프라인 행"]
+  },
+  {
+    id: 11,
+    title: "[6/8] CCA 구조화된 데이터 추출 시나리오 — 3계층 신뢰성, 재시도 루프",
+    description: "3계층 신뢰성 모델(프롬프트 → 스키마 강제 → 시맨틱 검증). tool-forcing과 Pydantic, with_structured_output() LangChain 함정, informed/bounded 재시도.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "structured-data", "data-extraction", "prompt-engineering", "validation", "json-schema", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-03-28",
+    path: "cca-structured-data-extraction/report.md",
+    originalUrl: "https://medium.com/@richardhightower/cca-exam-prep-structured-data-extraction-86ad3c7541a3",
+    keywords: ["구조화된 데이터 추출", "3계층 신뢰성", "JSON 스키마", "tool-forcing", "tool_choice", "Pydantic", "validation-retry loop", "informed retry", "bounded retry"]
+  },
+  {
+    id: 12,
+    title: "[7/8] CCA 개발자 생산성 시나리오 — CLAUDE.md 4단계, MCP 스코핑",
+    description: "5개 도메인 횡단. CLAUDE.md 4단계 계층(managed/org → project → user → local), MCP 분리 설정, Description-Discernment 루프, PostToolUse/PreToolUse 훅.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "developer-productivity", "CLAUDE-md", "MCP", "claude-code", "prompt-engineering", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-04-02",
+    path: "cca-developer-productivity-scenario/report.md",
+    originalUrl: "https://medium.com/@richardhightower/cca-master-the-developer-productivity-scenario-for-the-claude-certified-architect-exam-from-e402d9bb277d",
+    keywords: ["개발자 생산성", "CLAUDE.md 계층", "4단계 계층", "MCP 스코핑", "프로그래밍적 강제", "PostToolUse", "Description-Discernment", "4-5 도구 규칙"]
+  }
+];
+
+// ==================== STATE ====================
+let activeCategory = null;
+let activeTags = new Set();
+let searchQuery = "";
+
+// ==================== RENDER ====================
+function getAllCategories() {
+  const map = {};
+  articles.forEach(a => { map[a.category] = (map[a.category] || 0) + 1; });
+  return Object.entries(map).sort((a, b) => b[1] - a[1]);
+}
+
+function getAllTags() {
+  const map = {};
+  articles.forEach(a => a.tags.forEach(t => { map[t] = (map[t] || 0) + 1; }));
+  return Object.entries(map).sort((a, b) => b[1] - a[1]);
+}
+
+function getAllKeywords() {
+  const map = {};
+  articles.forEach(a => (a.keywords || []).forEach(k => { map[k] = (map[k] || 0) + 1; }));
+  return Object.entries(map).sort((a, b) => b[1] - a[1]);
+}
+
+function getFiltered() {
+  return articles.filter(a => {
+    if (activeCategory && a.category !== activeCategory) return false;
+    if (activeTags.size > 0 && ![...activeTags].some(t => a.tags.includes(t))) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const haystack = [a.title, a.description, a.category, ...a.tags, ...(a.keywords||[]), a.author].join(" ").toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+const colors = ["#4A7BF7","#D4577A","#2D9D8F","#C4883A","#7C5CBF","#B45309","#0E7490","#BE185D","#4D7C0F","#DC2626"];
+
+function renderStats() {
+  document.getElementById("totalDocs").textContent = articles.length;
+  document.getElementById("totalCats").textContent = getAllCategories().length;
+  document.getElementById("totalTags").textContent = getAllTags().length;
+}
+
+function renderCategories() {
+  const cats = getAllCategories();
+  const el = document.getElementById("catList");
+  el.innerHTML = `<div class="cat-item ${!activeCategory ? 'active' : ''}" onclick="setCategory(null)">
+      <span>전체</span><span class="cat-count">${articles.length}</span>
+    </div>` +
+    cats.map(([cat, count]) => `
+      <div class="cat-item ${activeCategory === cat ? 'active' : ''}" onclick="setCategory('${cat}')">
+        <span>${cat}</span><span class="cat-count">${count}</span>
+      </div>`).join("");
+}
+
+function renderTagCloud() {
+  const tags = getAllTags();
+  const max = Math.max(...tags.map(t => t[1]));
+  const el = document.getElementById("tagCloud");
+  el.innerHTML = tags.map(([tag, count]) => {
+    const size = count === max ? "size-lg" : count >= max * 0.6 ? "size-md" : "size-sm";
+    const isActive = activeTags.has(tag);
+    return `<span class="tag ${size} ${isActive ? 'active' : ''}" onclick="toggleTag('${tag}')">#${tag}<span class="tag-count">${count}</span></span>`;
+  }).join("");
+}
+
+function renderWordCloud() {
+  const words = getAllKeywords();
+  if (words.length === 0) return;
+  const max = Math.max(...words.map(w => w[1]));
+  const el = document.getElementById("wordCloud");
+  // Shuffle for visual variety
+  const shuffled = [...words].sort(() => Math.random() - 0.5);
+  el.innerHTML = shuffled.map(([word, count]) => {
+    const ratio = count / max;
+    const fontSize = 11 + ratio * 14;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const opacity = 0.5 + ratio * 0.5;
+    return `<span class="word" style="font-size:${fontSize}px;color:${color};opacity:${opacity}" onclick="searchFor('${word}')">${word}</span>`;
+  }).join("");
+}
+
+function renderArticles() {
+  const filtered = getFiltered();
+  const el = document.getElementById("articleList");
+  document.getElementById("resultsCount").textContent = `${filtered.length}건의 문서`;
+
+  // Active filters
+  const filtersEl = document.getElementById("activeFilters");
+  let filterHtml = "";
+  if (activeCategory) filterHtml += `<span class="filter-badge" onclick="setCategory(null)">${activeCategory} ✕</span>`;
+  activeTags.forEach(t => { filterHtml += `<span class="filter-badge" onclick="toggleTag('${t}')">#${t} ✕</span>`; });
+  if (searchQuery) filterHtml += `<span class="filter-badge" onclick="clearSearch()">"${searchQuery}" ✕</span>`;
+  filtersEl.innerHTML = filterHtml;
+
+  if (filtered.length === 0) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">&#x1F50D;</div><p>검색 결과가 없습니다</p></div>`;
+    return;
+  }
+
+  el.innerHTML = filtered.map(a => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">${a.id}</div>
+        <div class="card-title"><a href="#" onclick="openReport('${a.path}');return false;">${a.title}</a></div>
+      </div>
+      <div class="card-meta">
+        <span>&#x1F4DD; ${a.author}</span>
+        <span>&#x1F4C5; ${a.date}</span>
+        <span class="card-cat">&#x1F4C2; ${a.category}</span>
+      </div>
+      <div class="card-desc">${a.description}</div>
+      <div class="card-tags">
+        ${a.tags.map(t => `<span class="card-tag" onclick="toggleTag('${t}')">#${t}</span>`).join("")}
+      </div>
+      <div class="card-links">
+        <a class="card-link" href="#" onclick="openReport('${a.path}');return false;">&#x1F4C4; 보고서 보기</a>
+        <a class="card-link" href="${a.originalUrl}" target="_blank">&#x1F517; 원문 보기</a>
+      </div>
+    </div>`).join("");
+}
+
+function renderAll() {
+  renderStats();
+  renderCategories();
+  renderTagCloud();
+  renderWordCloud();
+  renderArticles();
+}
+
+// ==================== ACTIONS ====================
+function setCategory(cat) {
+  activeCategory = cat;
+  renderAll();
+}
+
+function toggleTag(tag) {
+  if (activeTags.has(tag)) activeTags.delete(tag);
+  else activeTags.add(tag);
+  renderAll();
+}
+
+function searchFor(word) {
+  document.getElementById("searchInput").value = word;
+  searchQuery = word;
+  renderAll();
+}
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  searchQuery = "";
+  renderAll();
+}
+
+// ==================== VIEWER ====================
+function openReport(path) {
+  const overlay = document.getElementById("viewerOverlay");
+  const content = document.getElementById("viewerContent");
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  content.innerHTML = '<div class="viewer-loading"><div class="spinner"></div><p>로딩 중...</p></div>';
+  fetch(path)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(md => { content.innerHTML = parseMd(md); })
+    .catch(() => { content.innerHTML = '<div class="viewer-loading"><p>파일을 불러올 수 없습니다.<br>로컬 서버에서 열어주세요: <code>python3 -m http.server 8080</code></p></div>'; });
+}
+
+function closeViewer() {
+  document.getElementById("viewerOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeViewer();
+});
+
+// ==================== INIT ====================
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  searchQuery = e.target.value.trim();
+  renderArticles();
+});
+
+renderAll();
+</script>
+</body>
+</html>

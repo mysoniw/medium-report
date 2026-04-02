@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Graph — Medium Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, system-ui, sans-serif;
+    background: #FAFAF8;
+    color: #2C2C2C;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Top bar — Claude Hub style */
+  .topbar {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E8E4DC;
+  }
+  .topbar-left { display:flex; align-items:center; gap:16px; }
+  .topbar h1 { font-size:16px; font-weight:700; color:#8B6914; letter-spacing:-0.3px; }
+  .topbar a {
+    font-size:12px; color:#8B6914; text-decoration:none;
+    padding:5px 14px; border:1px solid #E8E4DC;
+    border-radius:6px; transition:all 0.15s; font-weight:500;
+  }
+  .topbar a:hover { background:#F3F0EA; border-color:#C4A35A; }
+  .topbar-right { display:flex; gap:12px; align-items:center; }
+  .legend { display:flex; gap:14px; font-size:11px; color:#6B6B6B; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .legend-dot { width:10px; height:10px; border-radius:50%; }
+
+  /* Canvas */
+  canvas { display:block; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+
+  /* Tooltip */
+  .tooltip {
+    display:none; position:fixed; z-index:200;
+    background: #FFFFFF; border:1px solid #E8E4DC;
+    border-radius:10px; padding:14px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    max-width:320px; pointer-events:none;
+  }
+  .tooltip.show { display:block; }
+  .tooltip-type { font-size:10px; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .tooltip-name { font-size:15px; font-weight:600; margin-bottom:6px; color:#2C2C2C; }
+  .tooltip-detail { font-size:12px; color:#6B6B6B; line-height:1.5; }
+  .tooltip-connections { margin-top:8px; font-size:11px; color:#8B6914; white-space:pre-line; }
+
+  /* Filter buttons */
+  .filters { display:flex; gap:4px; }
+  .filter-btn {
+    padding:5px 12px; border-radius:6px; border:1px solid #E8E4DC;
+    background:transparent; color:#6B6B6B; font-size:11px;
+    cursor:pointer; transition:all 0.15s; font-family:inherit; font-weight:500;
+  }
+  .filter-btn.active { border-color:#C4A35A; color:#8B6914; background:#F3F0EA; }
+  .filter-btn:hover { border-color:#C4A35A; }
+
+  /* Stats */
+  .stats {
+    position:fixed; bottom:16px; left:28px; z-index:100;
+    font-size:11px; color:#999; line-height:1.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>Knowledge Graph</h1>
+    <a href="index.html">Archive</a>
+    <div class="filters">
+      <button class="filter-btn active" data-type="all" onclick="toggleFilter(this)">All</button>
+      <button class="filter-btn active" data-type="article" onclick="toggleFilter(this)">Articles</button>
+      <button class="filter-btn active" data-type="tag" onclick="toggleFilter(this)">Tags</button>
+      <button class="filter-btn active" data-type="keyword" onclick="toggleFilter(this)">Keywords</button>
+      <button class="filter-btn active" data-type="category" onclick="toggleFilter(this)">Categories</button>
+      <button class="filter-btn active" data-type="author" onclick="toggleFilter(this)">Authors</button>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4A7BF7"></div>Article</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2D9D8F"></div>Tag</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C4883A"></div>Keyword</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7C5CBF"></div>Category</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D4577A"></div>Author</div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-type" id="tt-type"></div>
+  <div class="tooltip-name" id="tt-name"></div>
+  <div class="tooltip-detail" id="tt-detail"></div>
+  <div class="tooltip-connections" id="tt-conn"></div>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<div class="stats" id="stats"></div>
+
+<script>
+// ==================== DATA ====================
+const articles = [
+  {
+    id: "a1",
+    title: "아젠틱 코딩 프레임워크 대격돌",
+    category: "AI/에이전트 엔지니어링",
+    tags: ["agentic-coding", "framework-comparison", "AI-agent", "context-engineering", "TDD"],
+    author: "Rick Hightower",
+    keywords: ["바이브코딩", "에이전트", "프레임워크", "컨텍스트", "웨이브", "병렬실행", "TDD", "스펙", "브라운필드", "그린필드", "워크플로우", "서브에이전트", "토큰", "품질", "자동화", "규율", "엔터프라이즈", "델타스펙", "게이트", "파이프라인"],
+    path: "agentic-framework-showdown/report.md"
+  },
+  {
+    id: "a2",
+    title: "Claude Code 슬래시 커맨드 5가지",
+    category: "개발 도구/생산성",
+    tags: ["claude-code", "slash-commands", "developer-tools", "workflow", "productivity"],
+    author: "Joe Njenga",
+    keywords: ["슬래시커맨드", "에이전트", "병렬실행", "코드리뷰", "마이그레이션", "자동화", "워크플로우", "DX", "토큰", "세션", "프롬프트", "디버깅", "리팩토링", "CLI", "Anthropic"],
+    path: "claude-code-slash-commands/report.md"
+  },
+  {
+    id: "a3",
+    title: "NotebookLM 11단계 학습 워크플로우",
+    category: "학습/생산성",
+    tags: ["NotebookLM", "learning-workflow", "active-learning", "AI-tools", "knowledge-management"],
+    author: "Soultntoure",
+    keywords: ["학습", "NotebookLM", "삼각측량", "능동학습", "소스관리", "팟캐스트", "퀴즈", "파인만기법", "지식관리", "DDIA", "기술서적", "구글", "AI도구", "복습", "워크플로우"],
+    path: "notebooklm-learning-workflow/report.md"
+  }
+];
+
+// ==================== BUILD GRAPH ====================
+const nodes = [];
+const edges = [];
+const nodeMap = {};
+
+function addNode(id, label, type, detail) {
+  if (nodeMap[id]) { nodeMap[id].weight = (nodeMap[id].weight || 1) + 1; return; }
+  const node = { id, label, type, detail: detail || "", weight: 1, x: 0, y: 0, vx: 0, vy: 0 };
+  nodeMap[id] = node;
+  nodes.push(node);
+}
+
+function addEdge(src, tgt) {
+  if (src === tgt) return;
+  if (!nodeMap[src] || !nodeMap[tgt]) return;
+  edges.push({ source: src, target: tgt });
+}
+
+// Build nodes
+articles.forEach(a => {
+  addNode(a.id, a.title, "article", a.path);
+  addNode("cat:" + a.category, a.category, "category");
+  addNode("auth:" + a.author, a.author, "author");
+  a.tags.forEach(t => addNode("tag:" + t, "#" + t, "tag"));
+  a.keywords.forEach(k => addNode("kw:" + k, k, "keyword"));
+});
+
+// Build edges
+articles.forEach(a => {
+  addEdge(a.id, "cat:" + a.category);
+  addEdge(a.id, "auth:" + a.author);
+  a.tags.forEach(t => addEdge(a.id, "tag:" + t));
+  a.keywords.forEach(k => addEdge(a.id, "kw:" + k));
+});
+
+// Count connections
+const connectionCount = {};
+edges.forEach(e => {
+  connectionCount[e.source] = (connectionCount[e.source] || 0) + 1;
+  connectionCount[e.target] = (connectionCount[e.target] || 0) + 1;
+});
+nodes.forEach(n => n.connections = connectionCount[n.id] || 0);
+
+// ==================== COLORS & SIZES ====================
+const typeColors = {
+  article: "#4A7BF7",
+  tag: "#2D9D8F",
+  keyword: "#C4883A",
+  category: "#7C5CBF",
+  author: "#D4577A"
+};
+
+function nodeRadius(n) {
+  if (n.type === "article") return 18;
+  if (n.type === "category") return 12;
+  if (n.type === "author") return 11;
+  if (n.type === "tag") return 8 + Math.min(n.weight, 3) * 2;
+  // keyword — shared keywords are bigger
+  return 4 + Math.min(n.weight, 4) * 1.5;
+}
+
+// ==================== PHYSICS ====================
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let W, H;
+
+// Camera (pan & zoom)
+let camX = 0, camY = 0, zoom = 1;
+let isPanning = false, panStartX = 0, panStartY = 0, camStartX = 0, camStartY = 0;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// Screen ↔ World coordinate transforms
+function screenToWorld(sx, sy) {
+  return { x: (sx - W / 2) / zoom + camX, y: (sy - H / 2) / zoom + camY };
+}
+function worldToScreen(wx, wy) {
+  return { x: (wx - camX) * zoom + W / 2, y: (wy - camY) * zoom + H / 2 };
+}
+
+// Initial positions — spread wider
+nodes.forEach((n, i) => {
+  const angle = (i / nodes.length) * Math.PI * 2;
+  const r = 250 + Math.random() * 350;
+  n.x = Math.cos(angle) * r;
+  n.y = Math.sin(angle) * r;
+});
+
+// Force simulation
+const activeTypes = new Set(["article", "tag", "keyword", "category", "author"]);
+
+function visibleNodes() { return nodes.filter(n => activeTypes.has(n.type)); }
+function visibleEdges() {
+  return edges.filter(e => {
+    const s = nodeMap[e.source], t = nodeMap[e.target];
+    return s && t && activeTypes.has(s.type) && activeTypes.has(t.type);
+  });
+}
+
+function simulate() {
+  const vNodes = visibleNodes();
+  const vEdges = visibleEdges();
+  const alpha = 0.3;
+
+  // Very weak center gravity — let nodes spread
+  vNodes.forEach(n => {
+    n.vx += (0 - n.x) * 0.0003;
+    n.vy += (0 - n.y) * 0.0003;
+  });
+
+  // Stronger repulsion for wider spread
+  for (let i = 0; i < vNodes.length; i++) {
+    for (let j = i + 1; j < vNodes.length; j++) {
+      const a = vNodes[i], b = vNodes[j];
+      let dx = b.x - a.x, dy = b.y - a.y;
+      let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const minDist = nodeRadius(a) + nodeRadius(b) + 50;
+      if (dist < minDist * 5) {
+        const force = (minDist * 150) / (dist * dist);
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+        a.vx -= fx; a.vy -= fy;
+        b.vx += fx; b.vy += fy;
+      }
+    }
+  }
+
+  // Attraction (edges) — longer target distance
+  vEdges.forEach(e => {
+    const s = nodeMap[e.source], t = nodeMap[e.target];
+    let dx = t.x - s.x, dy = t.y - s.y;
+    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const targetDist = 180;
+    const force = (dist - targetDist) * 0.002;
+    const fx = (dx / dist) * force;
+    const fy = (dy / dist) * force;
+    s.vx += fx; s.vy += fy;
+    t.vx -= fx; t.vy -= fy;
+  });
+
+  // Apply velocity — no bounds (infinite canvas)
+  vNodes.forEach(n => {
+    if (n === dragNode) return;
+    n.vx *= 0.85;
+    n.vy *= 0.85;
+    n.x += n.vx * alpha;
+    n.y += n.vy * alpha;
+  });
+}
+
+// ==================== RENDER ====================
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  // Apply camera transform
+  ctx.translate(W / 2, H / 2);
+  ctx.scale(zoom, zoom);
+  ctx.translate(-camX, -camY);
+
+  const vNodes = visibleNodes();
+  const vEdges = visibleEdges();
+
+  // Edges
+  vEdges.forEach(e => {
+    const s = nodeMap[e.source], t = nodeMap[e.target];
+    const isHovered = hoverNode && (e.source === hoverNode.id || e.target === hoverNode.id);
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(t.x, t.y);
+    ctx.strokeStyle = isHovered ? "rgba(74,123,247,0.4)" : "rgba(0,0,0,0.06)";
+    ctx.lineWidth = (isHovered ? 1.8 : 0.7) / zoom;
+    ctx.stroke();
+  });
+
+  // Nodes
+  vNodes.forEach(n => {
+    const r = nodeRadius(n);
+    const color = typeColors[n.type];
+    const isHovered = hoverNode === n;
+    const isConnected = hoverNode && vEdges.some(e =>
+      (e.source === hoverNode.id && e.target === n.id) ||
+      (e.target === hoverNode.id && e.source === n.id)
+    );
+    const dimmed = hoverNode && !isHovered && !isConnected;
+
+    // Glow for hovered
+    if (isHovered) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, r + 8, 0, Math.PI * 2);
+      const glow = ctx.createRadialGradient(n.x, n.y, r, n.x, n.y, r + 8);
+      glow.addColorStop(0, color + "30");
+      glow.addColorStop(1, "transparent");
+      ctx.fillStyle = glow;
+      ctx.fill();
+    }
+
+    // Node circle
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = dimmed ? color + "18" : color + (isHovered ? "ee" : "cc");
+    ctx.fill();
+
+    // Border for articles
+    if (n.type === "article") {
+      ctx.strokeStyle = dimmed ? color + "30" : color;
+      ctx.lineWidth = 2.5 / zoom;
+      ctx.stroke();
+    }
+
+    // Soft white fill overlay for non-hovered
+    if (!isHovered && !dimmed && n.type !== "keyword") {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, r * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      ctx.fill();
+    }
+
+    // Label — scale font to keep readable
+    if (r >= 8 || isHovered || isConnected) {
+      const fontSize = (n.type === "article" ? 11 : n.type === "keyword" ? 9 : 10) / zoom;
+      ctx.font = `${isHovered ? "600" : "400"} ${fontSize}px 'Noto Sans KR', -apple-system, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = dimmed ? "rgba(0,0,0,0.08)" : isHovered ? "#2C2C2C" : "#555";
+
+      let label = n.label;
+      if (label.length > 16 && !isHovered) label = label.slice(0, 14) + "…";
+      ctx.fillText(label, n.x, n.y + r + 4 / zoom);
+    }
+  });
+
+  ctx.restore();
+
+  // Zoom indicator (screen-space)
+  const pct = Math.round(zoom * 100);
+  ctx.font = "11px 'Noto Sans KR', sans-serif";
+  ctx.fillStyle = "#999";
+  ctx.textAlign = "right";
+  ctx.fillText(`${pct}%`, W - 20, H - 16);
+}
+
+// ==================== INTERACTION ====================
+let hoverNode = null;
+let dragNode = null;
+let dragOffX = 0, dragOffY = 0;
+const tooltip = document.getElementById("tooltip");
+
+function getNodeAt(sx, sy) {
+  const w = screenToWorld(sx, sy);
+  const vNodes = visibleNodes();
+  for (let i = vNodes.length - 1; i >= 0; i--) {
+    const n = vNodes[i];
+    const r = nodeRadius(n) + 4 / zoom;
+    const dx = w.x - n.x, dy = w.y - n.y;
+    if (dx * dx + dy * dy < r * r) return n;
+  }
+  return null;
+}
+
+canvas.addEventListener("mousemove", e => {
+  const sx = e.clientX, sy = e.clientY;
+
+  // Canvas panning
+  if (isPanning) {
+    camX = camStartX - (sx - panStartX) / zoom;
+    camY = camStartY - (sy - panStartY) / zoom;
+    return;
+  }
+
+  // Node dragging
+  if (dragNode) {
+    const w = screenToWorld(sx, sy);
+    dragNode.x = w.x - dragOffX;
+    dragNode.y = w.y - dragOffY;
+    dragNode.vx = 0;
+    dragNode.vy = 0;
+    return;
+  }
+
+  const node = getNodeAt(sx, sy);
+  hoverNode = node;
+  canvas.style.cursor = node ? "pointer" : "grab";
+
+  if (node) {
+    document.getElementById("tt-type").textContent = node.type.toUpperCase();
+    document.getElementById("tt-type").style.color = typeColors[node.type];
+    document.getElementById("tt-name").textContent = node.label;
+
+    const connNodes = [];
+    visibleEdges().forEach(e => {
+      if (e.source === node.id) connNodes.push(nodeMap[e.target]);
+      if (e.target === node.id) connNodes.push(nodeMap[e.source]);
+    });
+    const grouped = {};
+    connNodes.forEach(cn => {
+      if (!cn) return;
+      if (!grouped[cn.type]) grouped[cn.type] = [];
+      grouped[cn.type].push(cn.label);
+    });
+
+    let detail = "";
+    if (node.type === "article") detail = node.detail;
+    if (node.type === "keyword" && node.weight > 1) detail = `${node.weight}개 문서에서 공유됨`;
+    document.getElementById("tt-detail").textContent = detail;
+
+    let connText = `${connNodes.length}개 연결`;
+    Object.entries(grouped).forEach(([type, labels]) => {
+      connText += `\n${type}: ${labels.slice(0, 4).join(", ")}${labels.length > 4 ? "…" : ""}`;
+    });
+    document.getElementById("tt-conn").textContent = connText;
+
+    tooltip.classList.add("show");
+    let tx = sx + 16, ty = sy + 16;
+    if (tx + 320 > W) tx = sx - 320;
+    if (ty + 160 > H) ty = sy - 160;
+    tooltip.style.left = tx + "px";
+    tooltip.style.top = ty + "px";
+  } else {
+    tooltip.classList.remove("show");
+  }
+});
+
+canvas.addEventListener("mousedown", e => {
+  const node = getNodeAt(e.clientX, e.clientY);
+  if (node) {
+    // Drag node
+    const w = screenToWorld(e.clientX, e.clientY);
+    dragNode = node;
+    dragOffX = w.x - node.x;
+    dragOffY = w.y - node.y;
+    canvas.style.cursor = "grabbing";
+  } else {
+    // Pan canvas
+    isPanning = true;
+    panStartX = e.clientX;
+    panStartY = e.clientY;
+    camStartX = camX;
+    camStartY = camY;
+    canvas.style.cursor = "grabbing";
+  }
+});
+
+canvas.addEventListener("mouseup", () => {
+  dragNode = null;
+  isPanning = false;
+  canvas.style.cursor = "grab";
+});
+
+canvas.addEventListener("mouseleave", () => {
+  hoverNode = null;
+  dragNode = null;
+  isPanning = false;
+  tooltip.classList.remove("show");
+});
+
+// Zoom with mouse wheel
+canvas.addEventListener("wheel", e => {
+  e.preventDefault();
+  const oldZoom = zoom;
+  const delta = e.deltaY > 0 ? 0.9 : 1.1;
+  zoom = Math.min(5, Math.max(0.15, zoom * delta));
+
+  // Zoom toward mouse position
+  const wx = (e.clientX - W / 2) / oldZoom + camX;
+  const wy = (e.clientY - H / 2) / oldZoom + camY;
+  camX = wx - (e.clientX - W / 2) / zoom;
+  camY = wy - (e.clientY - H / 2) / zoom;
+}, { passive: false });
+
+// ==================== FILTERS ====================
+function toggleFilter(btn) {
+  const type = btn.dataset.type;
+  if (type === "all") {
+    const allActive = document.querySelectorAll(".filter-btn.active").length === 6;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      if (allActive) {
+        b.classList.remove("active");
+        activeTypes.delete(b.dataset.type);
+      } else {
+        b.classList.add("active");
+        activeTypes.add(b.dataset.type);
+      }
+    });
+    return;
+  }
+  btn.classList.toggle("active");
+  if (btn.classList.contains("active")) activeTypes.add(type);
+  else activeTypes.delete(type);
+}
+
+// ==================== STATS ====================
+function updateStats() {
+  const vn = visibleNodes().length;
+  const ve = visibleEdges().length;
+  // Find shared keywords
+  const shared = nodes.filter(n => n.type === "keyword" && n.weight > 1);
+  document.getElementById("stats").innerHTML =
+    `Nodes: ${vn} / Edges: ${ve} / Shared keywords: ${shared.length}<br>` +
+    shared.map(s => `<span style="color:${typeColors.keyword}">${s.label}</span>(${s.weight})`).join("  ");
+}
+
+// ==================== LOOP ====================
+function loop() {
+  simulate();
+  draw();
+  updateStats();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
