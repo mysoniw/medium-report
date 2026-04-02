@@ -20,6 +20,11 @@
 | 3 | [NotebookLM 11단계 학습 워크플로우](notebooklm-learning-workflow/report.md) | 학습/생산성 | `#NotebookLM` `#learning-workflow` `#active-learning` `#AI-tools` `#knowledge-management` | Soultntoure | 2024-12-23 | `notebooklm-learning-workflow/` |
 | 4 | [Boris Cherny의 Claude Code 팁 스킬 분석](boris-cherny-claude-code-tips-skill/report.md) | 개발 도구/생산성 | `#claude-code` `#claude-code-skills` `#workflow-optimization` `#parallel-agents` `#worktree` `#boris-cherny` | Reza Rezvani | 2026-03-23 | `boris-cherny-claude-code-tips-skill/` |
 | 5 | [CCA Scenario Deep Dive Series (7편)](cca-scenario-deep-dive/report.md) | AI/자격증 | `#CCA` `#claude-certified-architect` `#anthropic` `#agentic-architecture` `#MCP` `#claude-code` `#prompt-engineering` `#anti-patterns` | Rick Hightower | 2026-03-25 ~ 04-02 | `cca-scenario-deep-dive/` |
+| 6 | [Anthropic 하네스 엔지니어링: 에이전트 2개, 피처 리스트 1개, 컨텍스트 오버플로우 0](anthropics-harness-engineering/report.md) | AI/에이전트 엔지니어링 | `#harness-engineering` `#multi-agent` `#context-management` `#agentic-coding` `#anthropic` `#feature-list` `#git-checkpoint` | Rick Hightower | 2026-03-30 | `anthropics-harness-engineering/` |
+| 7 | [MiniMax M2.7을 Claude Code에 연결했더니 하룻밤 만에 비용 낭비가 멈췄다](minimax-m27-claude-code/report.md) | AI Tools/비용 최적화 | `#Claude` `#ClaudeCode` `#MiniMax` `#AIAgents` `#CostOptimization` `#OpenSource` `#LLM` `#DeveloperTools` | Joe Njenga | 2026-03-30 | `minimax-m27-claude-code/` |
+| 8 | [에이전틱 AI 엔지니어링을 위한 SDLC](sdlc-agentic-ai-engineering/report.md) | AI Engineering/개발 도구 | `#AgenticAI` `#SDLC` `#ClaudeCode` `#AIEngineering` `#MultiAgent` `#VibeCoding` `#DeveloperProductivity` | Brett Luelling | 2026-03-31 | `sdlc-agentic-ai-engineering/` |
+| 9 | [2026년 AI 에이전트를 위한 필수 CLI 10선](10-must-have-clis-ai-agents/report.md) | AI Engineering/개발 도구 | `#AI에이전트` `#CLI` `#개발도구` `#자동화` `#LLM` `#워크플로우` | unicodeveloper | 2026-04-01 | `10-must-have-clis-ai-agents/` |
+| 10 | [9달러의 재앙: Anthropic의 하네스 설계 논문이 가르쳐 주는 자율 AI 구축의 교훈](9-dollar-disaster-harness-design/report.md) | AI Engineering/자율 AI | `#AI` `#AIAgent` `#HarnessEngineering` `#ContextEngineering` `#PromptEngineering` `#Claude` `#Anthropic` `#MultiAgent` | Rick Hightower | 2026-03-27 | `9-dollar-disaster-harness-design/` |
 
 ---
 
