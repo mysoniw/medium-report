@@ -25,12 +25,19 @@
 | 8 | [에이전틱 AI 엔지니어링을 위한 SDLC](sdlc-agentic-ai-engineering/report.md) | AI Engineering/개발 도구 | `#AgenticAI` `#SDLC` `#ClaudeCode` `#AIEngineering` `#MultiAgent` `#VibeCoding` `#DeveloperProductivity` | Brett Luelling | 2026-03-31 | `sdlc-agentic-ai-engineering/` |
 | 9 | [2026년 AI 에이전트를 위한 필수 CLI 10선](10-must-have-clis-ai-agents/report.md) | AI Engineering/개발 도구 | `#AI에이전트` `#CLI` `#개발도구` `#자동화` `#LLM` `#워크플로우` | unicodeveloper | 2026-04-01 | `10-must-have-clis-ai-agents/` |
 | 10 | [9달러의 재앙: Anthropic의 하네스 설계 논문이 가르쳐 주는 자율 AI 구축의 교훈](9-dollar-disaster-harness-design/report.md) | AI Engineering/자율 AI | `#AI` `#AIAgent` `#HarnessEngineering` `#ContextEngineering` `#PromptEngineering` `#Claude` `#Anthropic` `#MultiAgent` | Rick Hightower | 2026-03-27 | `9-dollar-disaster-harness-design/` |
+| 11 | [Claude Code 서브에이전트와 메인 에이전트 조율](claude-code-subagents-coordination/report.md) | 개발 도구/생산성 | `#claude-code` `#subagent` `#multi-agent` `#delegation-pattern` `#hub-and-spoke` `#agent-coordination` `#custom-agents` | Rick Hightower | 2026-03-31 | `claude-code-subagents-coordination/` |
+| 12 | [Google ADK: 실전 에이전트 개발자를 위한 심층 평가](google-adk-battle-tested/report.md) | AI Engineering/에이전트 프레임워크 | `#Google-ADK` `#agent-framework` `#LangGraph` `#claude-code` `#Java` `#Python` `#multi-agent` `#LiteLLM` | Rick Hightower | 2026-04-02 | `google-adk-battle-tested/` |
+| 13 | [MCP는 죽었는가? 나이브 도구 로딩을 무너뜨린 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) | AI Engineering/아키텍처 | `#MCP` `#context-engineering` `#agent-skills` `#tool-management` `#harness-engineering` `#AI-agent` `#CLI` | Rick Hightower | 2026-04-03 | `is-mcp-dead-context-crisis/` |
+| 14 | [CCA 모의시험 60문항 완벽 해설](cca-practice-exam-60-questions/report.md) | AI/자격증 | `#CCA` `#claude-certified-architect` `#practice-exam` `#anthropic` `#agentic-architecture` `#context-engineering` `#tool-design` `#anti-patterns` | Rick Hightower | 2026-04-03 | `cca-practice-exam-60-questions/` |
+| 15 | [Langfuse vs LangSmith: AI 에이전트 관측성 플랫폼 비교](langfuse-vs-langsmith/report.md) | AI Engineering/관측성 | `#AI-observability` `#Langfuse` `#LangSmith` `#LangGraph` `#OpenTelemetry` `#agent-tracing` `#LLM-evaluation` | Rick Hightower | 2026-04-04 | `langfuse-vs-langsmith/` |
+| 16 | [아젠틱 코딩 프레임워크 실전 가이드](agentic-frameworks-practical-guide/report.md) | AI Engineering/개발 방법론 | `#agentic-coding` `#framework-comparison` `#GSD` `#Superpowers` `#BMAD` `#SpecKit` `#OpenSpec` `#TDD` | 종합 조사 | 2026-04-04 | `agentic-frameworks-practical-guide/` |
+| 17 | [CCA 시험 준비 학습 허브](cca-study-hub/README.md) | AI/자격증 | `#CCA` `#claude-certified-architect` `#study-hub` `#exam-prep` `#flashcards` `#cheatsheet` `#anti-patterns` | 종합 정리 | 2026-04-05 | `cca-study-hub/` |
 
 ---
 
 ## 시리즈
 
-### [CCA Scenario Deep Dive Series](cca-scenario-deep-dive/report.md) (Rick Hightower, 7/8편 보유)
+### [CCA Scenario Deep Dive Series](cca-scenario-deep-dive/report.md) (Rick Hightower, 8/8편 완료)
 
 > 시리즈 인덱스 문서에서 각 아티클 요약과 시리즈 관통 안티패턴/올바른 패턴 대조표 확인 가능
 
@@ -43,7 +50,7 @@
 | 5 | [CI/CD 시나리오](cca-cicd-scenario/report.md) | --bare, JSON 스키마, ZDR, 토큰 경제학 | ✅ |
 | 6 | [구조화된 데이터 추출 시나리오](cca-structured-data-extraction/report.md) | 3계층 신뢰성, tool-forcing, 재시도 루프 | ✅ |
 | 7 | [개발자 생산성 시나리오](cca-developer-productivity-scenario/report.md) | CLAUDE.md 4단계, MCP 스코핑, 안티패턴 | ✅ |
-| 8 | 60 Review Questions (미발행) | 종합 연습 문제 | ⬜ |
+| 8 | [60 Questions Practice Exam](cca-practice-exam-60-questions/report.md) | 종합 연습 문제 60문항 | ✅ |
 
 ---
 
@@ -53,11 +60,23 @@
 - [아젠틱 코딩 프레임워크 대격돌](agentic-framework-showdown/report.md) — 5개 프레임워크(BMAD, SpecKit, OpenSpec, GSD, Superpowers) 비교 분석
 
 ### AI/자격증
-- [CCA Scenario Deep Dive Series (7편)](cca-scenario-deep-dive/report.md) — 시리즈 인덱스. Foundations 가이드 + 6개 시나리오(고객지원, 코드생성, 멀티에이전트, CI/CD, 데이터추출, 생산성) 분석
+- [CCA Scenario Deep Dive Series (8편 완료)](cca-scenario-deep-dive/report.md) — 시리즈 인덱스. Foundations 가이드 + 6개 시나리오 + 60문항 모의시험
+- [CCA 모의시험 60문항 완벽 해설](cca-practice-exam-60-questions/report.md) — 5개 도메인·6개 시나리오 커버, 오답 해설 포함 풀 프랙티스 시험
+- [CCA 시험 준비 학습 허브](cca-study-hub/README.md) — 5개 도메인 가이드, 안티패턴 25개, 플래시카드 100장, 치트시트, 원문/번역 전문
+
+### AI Engineering/에이전트 프레임워크
+- [Google ADK: 실전 에이전트 개발자를 위한 심층 평가](google-adk-battle-tested/report.md) — Python/Java 동시 지원, ADK vs LangGraph vs Claude Code DX 비교
+
+### AI Engineering/아키텍처
+- [MCP는 죽었는가? 나이브 도구 로딩을 무너뜨린 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) — MCP·Skills·CLI 하이브리드 스택, Tool Search 85% 절감
+
+### AI Engineering/관측성
+- [Langfuse vs LangSmith: AI 에이전트 관측성 플랫폼 비교](langfuse-vs-langsmith/report.md) — 동일 워크플로우 코드 비교, 가격·셀프호스팅·평가 프레임워크
 
 ### 개발 도구/생산성
 - [Claude Code 슬래시 커맨드 5가지](claude-code-slash-commands/report.md) — /effort, /loop, /copy, /color, /simplify, /batch 활용 가이드
 - [Boris Cherny의 Claude Code 팁 스킬 분석](boris-cherny-claude-code-tips-skill/report.md) — 57개 팁의 스택 의존 구조, Part 3-5 심층 분석, 12주 도입 전략
+- [Claude Code 서브에이전트와 메인 에이전트 조율](claude-code-subagents-coordination/report.md) — 위임 5단계, 허브앤스포크, 커스텀 에이전트 정의, 디버깅 워크플로우
 
 ### 학습/생산성
 - [NotebookLM 11단계 학습 워크플로우](notebooklm-learning-workflow/report.md) — Google NotebookLM으로 기술 서적 체계적 학습법
@@ -73,7 +92,7 @@
 | `#AI-agent` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
 | `#context-engineering` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
 | `#TDD` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
-| `#claude-code` | [슬래시 커맨드](claude-code-slash-commands/report.md), [Boris 팁 스킬](boris-cherny-claude-code-tips-skill/report.md), [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [CCA CI/CD](cca-cicd-scenario/report.md) |
+| `#claude-code` | [슬래시 커맨드](claude-code-slash-commands/report.md), [Boris 팁 스킬](boris-cherny-claude-code-tips-skill/report.md), [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [CCA CI/CD](cca-cicd-scenario/report.md), [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
 | `#claude-code-skills` | [Boris 팁 스킬](boris-cherny-claude-code-tips-skill/report.md) |
 | `#slash-commands` | [슬래시 커맨드](claude-code-slash-commands/report.md) |
 | `#developer-tools` | [슬래시 커맨드](claude-code-slash-commands/report.md) |
@@ -99,14 +118,14 @@
 | `#knowledge-management` | [NotebookLM 학습](notebooklm-learning-workflow/report.md) |
 | `#developer-productivity` | [CCA 생산성 시나리오](cca-developer-productivity-scenario/report.md) |
 | `#CLAUDE-md` | [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md) |
-| `#anti-patterns` | [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 고객지원](cca-customer-support-agent/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [CCA 멀티에이전트](cca-multi-agent-research/report.md), [CCA CI/CD](cca-cicd-scenario/report.md), [CCA 데이터추출](cca-structured-data-extraction/report.md) |
+| `#anti-patterns` | [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 고객지원](cca-customer-support-agent/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [CCA 멀티에이전트](cca-multi-agent-research/report.md), [CCA CI/CD](cca-cicd-scenario/report.md), [CCA 데이터추출](cca-structured-data-extraction/report.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
 | `#customer-support` | [CCA 고객 지원 시나리오](cca-customer-support-agent/report.md) |
 | `#escalation-logic` | [CCA 고객 지원 시나리오](cca-customer-support-agent/report.md) |
 | `#prompt-caching` | [CCA 고객 지원 시나리오](cca-customer-support-agent/report.md), [CCA CI/CD](cca-cicd-scenario/report.md) |
 | `#code-generation` | [CCA 코드 생성](cca-code-generation-scenario/report.md) |
-| `#multi-agent` | [CCA 멀티에이전트](cca-multi-agent-research/report.md) |
-| `#context-isolation` | [CCA 멀티에이전트](cca-multi-agent-research/report.md) |
-| `#hub-and-spoke` | [CCA 멀티에이전트](cca-multi-agent-research/report.md) |
+| `#multi-agent` | [CCA 멀티에이전트](cca-multi-agent-research/report.md), [서브에이전트 조율](claude-code-subagents-coordination/report.md), [Google ADK](google-adk-battle-tested/report.md) |
+| `#context-isolation` | [CCA 멀티에이전트](cca-multi-agent-research/report.md), [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
+| `#hub-and-spoke` | [CCA 멀티에이전트](cca-multi-agent-research/report.md), [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
 | `#ci-cd` | [CCA 코드 생성](cca-code-generation-scenario/report.md), [CCA CI/CD](cca-cicd-scenario/report.md) |
 | `#headless-mode` | [CCA CI/CD](cca-cicd-scenario/report.md) |
 | `#batch-api` | [CCA CI/CD](cca-cicd-scenario/report.md) |
@@ -114,3 +133,28 @@
 | `#data-extraction` | [CCA 데이터 추출](cca-structured-data-extraction/report.md) |
 | `#validation` | [CCA 데이터 추출](cca-structured-data-extraction/report.md) |
 | `#json-schema` | [CCA 데이터 추출](cca-structured-data-extraction/report.md) |
+| `#subagent` | [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
+| `#delegation-pattern` | [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
+| `#agent-coordination` | [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
+| `#custom-agents` | [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
+| `#Google-ADK` | [Google ADK](google-adk-battle-tested/report.md) |
+| `#agent-framework` | [Google ADK](google-adk-battle-tested/report.md) |
+| `#LangGraph` | [Google ADK](google-adk-battle-tested/report.md), [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#Java` | [Google ADK](google-adk-battle-tested/report.md) |
+| `#LiteLLM` | [Google ADK](google-adk-battle-tested/report.md) |
+| `#context-engineering` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
+| `#agent-skills` | [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
+| `#tool-management` | [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
+| `#harness-engineering` | [하네스 엔지니어링](anthropics-harness-engineering/report.md), [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
+| `#practice-exam` | [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
+| `#study-hub` | [CCA 학습 허브](cca-study-hub/README.md) |
+| `#exam-prep` | [CCA 학습 허브](cca-study-hub/README.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
+| `#flashcards` | [CCA 학습 허브](cca-study-hub/README.md) |
+| `#cheatsheet` | [CCA 학습 허브](cca-study-hub/README.md) |
+| `#tool-design` | [CCA 시험 가이드](cca-foundations-exam-guide/report.md), [CCA 멀티에이전트](cca-multi-agent-research/report.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
+| `#AI-observability` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#Langfuse` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#LangSmith` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#OpenTelemetry` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#agent-tracing` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#LLM-evaluation` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |

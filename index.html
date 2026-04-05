@@ -689,7 +689,7 @@ const articles = [
     date: "2026-03-27",
     path: "cca-code-generation-scenario/report.md",
     originalUrl: "https://medium.com/towards-artificial-intelligence/cca-exam-prep-mastering-the-code-generation-with-claude-code-scenario-95f2d8d06742",
-    keywords: ["코��� 생성", "context degradation", "컨텍스트 열화", "attention dilution", "lost in the middle", "CLAUDE.md", "-p 플래그", "--bare", "코디네이터 패턴"]
+    keywords: ["코드 생성", "context degradation", "컨텍스트 열화", "attention dilution", "lost in the middle", "CLAUDE.md", "-p 플래그", "--bare", "코디네이터 패턴"]
   },
   {
     id: 9,
@@ -750,6 +750,90 @@ const articles = [
     path: "anthropics-harness-engineering/report.md",
     originalUrl: "https://medium.com/@richardhightower/anthropics-harness-engineering-two-agents-one-feature-list-zero-context-overflow-7c26eb02c807",
     keywords: ["하네스 엔지니어링", "컨텍스트 윈도우", "초기화 에이전트", "코딩 에이전트", "피처 리스트", "컨텍스트 불안", "GAN 구조", "Playwright MCP", "자기평가 편향", "멀티에이전트", "장시간 에이전트", "Git 체크포인트"]
+  },
+  {
+    id: 14,
+    title: "Claude Code 서브에이전트와 메인 에이전트 조율: AI 위임 패턴 완전 가이드",
+    description: "서브에이전트의 존재 이유(컨텍스트 격리, 제약 강제, 재사용), 내장 4종(Explore/Plan/General/Bash), 위임 5단계 흐름, 허브앤스포크 통신, JSONL 디버깅, 커스텀 에이전트 정의.",
+    category: "개발 도구/생산성",
+    tags: ["claude-code", "subagent", "multi-agent", "delegation-pattern", "hub-and-spoke", "agent-coordination", "custom-agents"],
+    author: "Rick Hightower",
+    date: "2026-03-31",
+    path: "claude-code-subagents-coordination/report.md",
+    originalUrl: "https://medium.com/@richardhightower/claude-code-subagents-and-main-agent-coordination-a-complete-guide-to-ai-agent-delegation-patterns-a4f88ae8f46c",
+    keywords: ["Claude Code", "서브에이전트", "메인 에이전트", "위임 패턴", "허브 앤 스포크", "에이전트 조율", "커스텀 에이전트", "Explore", "Plan", "JSONL", "트랜스크립트", "Agent tool", "SendMessage", "context isolation", "delegation"]
+  },
+  {
+    id: 15,
+    title: "Google ADK: 실전 에이전트 개발자를 위한 심층 평가",
+    description: "LangGraph와 Claude Code를 매일 쓰는 개발자의 Google ADK 실전 평가. 4계층 아키텍처, Python/Java 동시 지원, FunctionTool, DX 비교, LiteLLM 모델 유연성.",
+    category: "AI Engineering/에이전트 프레임워크",
+    tags: ["Google-ADK", "agent-framework", "LangGraph", "claude-code", "Java", "Python", "multi-agent", "LiteLLM"],
+    author: "Rick Hightower",
+    date: "2026-04-02",
+    path: "google-adk-battle-tested/report.md",
+    originalUrl: "https://medium.com/@richardhightower/google-adk-for-the-battle-tested-agent-developer-fbc8dda86389",
+    keywords: ["Google ADK", "Agent Development Kit", "에이전트 프레임워크", "LangGraph", "Claude Code", "Java", "Python", "멀티에이전트", "LiteLLM", "Gemini", "Vertex AI", "FunctionTool", "SequentialAgent", "ParallelAgent", "LoopAgent", "DX 비교"]
+  },
+  {
+    id: 16,
+    title: "MCP는 죽었는가? 나이브 도구 로딩을 무너뜨린 컨텍스트 위기",
+    description: "MCP는 죽지 않았다. 죽은 것은 '모든 도구를 항상 로드하는' 1세대 패턴. Tool Search 85% 절감, 프로그래밍적 도구 호출, Agent Skills 프로그레시브 디스클로저, 하이브리드 스택.",
+    category: "AI Engineering/아키텍처",
+    tags: ["MCP", "context-engineering", "agent-skills", "tool-management", "harness-engineering", "AI-agent", "CLI"],
+    author: "Rick Hightower",
+    date: "2026-04-03",
+    path: "is-mcp-dead-context-crisis/report.md",
+    originalUrl: "https://medium.com/@richardhightower/is-mcp-dead-the-context-crisis-that-broke-naive-tool-loading-agent-skills-vs-mcp-vs-cli-cc7696eba0ba",
+    keywords: ["MCP", "Model Context Protocol", "컨텍스트 위기", "도구 관리", "Agent Skills", "CLI", "Tool Search", "하네스 엔지니어링", "context crisis", "naive tool loading", "progressive disclosure", "Cloudflare Code Mode", "Lost in the Middle", "attention budget"]
+  },
+  {
+    id: 17,
+    title: "CCA 모의시험 60문항 완벽 해설",
+    description: "CCA Exam Prep 시리즈 최종편(8/8). 5개 도메인·6개 시나리오 커버 60문항 모의시험. 오답 해설, 시험 함정 패턴, 합격 전략 포함.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "practice-exam", "anthropic", "agentic-architecture", "context-engineering", "tool-design", "anti-patterns"],
+    author: "Rick Hightower",
+    date: "2026-04-03",
+    path: "cca-practice-exam-60-questions/report.md",
+    originalUrl: "https://medium.com/@richardhightower/claude-certified-architect-practice-exam-60-questions-with-detailed-explanations-3a4d2267603d",
+    keywords: ["CCA", "Claude Certified Architect", "모의시험", "연습 문제", "60문항", "자격증 시험", "에이전틱 아키텍처", "컨텍스트 엔지니어링", "도구 설계", "안티패턴", "practice exam", "bounded retry", "tool_choice", "context isolation"]
+  },
+  {
+    id: 18,
+    title: "Langfuse vs LangSmith: AI 에이전트 관측성 플랫폼 비교",
+    description: "동일한 에이전트 워크플로우를 양쪽에 적용해 코드 수준 비교. 트레이싱, 평가, 셀프호스팅, 가격, 의사결정 프레임워크 분석.",
+    category: "AI Engineering/관측성",
+    tags: ["AI-observability", "Langfuse", "LangSmith", "LangGraph", "OpenTelemetry", "agent-tracing", "LLM-evaluation"],
+    author: "Rick Hightower",
+    date: "2026-04-04",
+    path: "langfuse-vs-langsmith/report.md",
+    originalUrl: "https://medium.com/@richardhightower/langfuse-vs-langsmith-two-competing-ai-observability-platforms-compared-2527a5ce023b",
+    keywords: ["Langfuse", "LangSmith", "AI 관측성", "에이전트 트레이싱", "OpenTelemetry", "LangGraph", "LLM 평가", "자체 호스팅", "비용 비교", "observability", "tracing", "evaluation", "self-hosting", "ClickHouse", "Annotation Queue"]
+  },
+  {
+    id: 19,
+    title: "아젠틱 코딩 프레임워크 실전 가이드: BMAD, SpecKit, OpenSpec, GSD, Superpowers",
+    description: "5개 아젠틱 프레임워크 심층 비교 + 하이브리드 조합 전략 + 설치/커맨드 Hands-On 가이드. 프로젝트 유형별 선택 플로우차트, 비용·속도·품질 시뮬레이션, CLAUDE.md 통합 예시 포함.",
+    category: "AI Engineering/개발 방법론",
+    tags: ["agentic-coding", "framework-comparison", "GSD", "Superpowers", "BMAD", "SpecKit", "OpenSpec", "TDD", "context-engineering", "vibe-coding"],
+    author: "종합 조사",
+    date: "2026-04-04",
+    path: "agentic-frameworks-practical-guide/report.md",
+    originalUrl: "https://medium.com/@richardhightower/the-great-framework-showdown-superpowers-vs-bmad-vs-speckit-vs-gsd-360983101c10",
+    keywords: ["아젠틱 코딩", "프레임워크 비교", "GSD", "Superpowers", "BMAD", "SpecKit", "OpenSpec", "바이브 코딩", "컨텍스트 부패", "TDD", "하이브리드 조합", "웨이브 실행", "델타 스펙", "설치 가이드", "CLAUDE.md"]
+  },
+  {
+    id: 20,
+    title: "CCA 시험 준비 학습 허브 — 5개 도메인 가이드, 플래시카드 100장, 치트시트",
+    description: "CCA Foundations 시험 대비 종합 학습 허브. 5개 도메인 가이드(Korean Lead, English Anchor), 안티패턴 25개, 플래시카드 100장(Anki 호환), 1페이지 치트시트, 8개 아티클 영문 원문/한글 번역/시험 노트.",
+    category: "AI/자격증",
+    tags: ["CCA", "claude-certified-architect", "study-hub", "exam-prep", "flashcards", "cheatsheet", "anti-patterns", "agentic-architecture", "MCP", "claude-code", "prompt-engineering", "context-management"],
+    author: "종합 정리",
+    date: "2026-04-05",
+    path: "cca-study-hub/index.html",
+    originalUrl: "https://github.com/mysoniw/medium-report/issues/2",
+    keywords: ["CCA", "학습 허브", "도메인 가이드", "안티패턴", "플래시카드", "치트시트", "시험 준비", "영문 원문", "한글 번역", "시험 노트", "Agentic Architecture", "Tool Design", "Claude Code", "Prompt Engineering", "Context Management"]
   }
 ];
 
@@ -911,6 +995,11 @@ function clearSearch() {
 
 // ==================== VIEWER ====================
 function openReport(path) {
+  // HTML 파일은 새 탭으로 열기 (마크다운 파서 대신)
+  if (path.endsWith('.html')) {
+    window.open(path, '_blank');
+    return;
+  }
   const overlay = document.getElementById("viewerOverlay");
   const content = document.getElementById("viewerContent");
   overlay.classList.add("open");

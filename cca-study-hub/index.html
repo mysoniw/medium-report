@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCA Foundations 시험 준비 학습 허브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --surface2: #F3F0EA;
+    --border: #E8E4DC;
+    --text: #2C2C2C;
+    --text-muted: #6B6B6B;
+    --accent: #8B6914;
+    --accent-dim: rgba(139,105,20,0.08);
+    --tag-bg: #EBF5FF;
+    --tag-text: #2B6CB0;
+    --cat-bg: #E8F5ED;
+    --cat-text: #2D8A4E;
+    --orange: #C4883A;
+    --pink: #D4577A;
+    --cyan: #2D9D8F;
+    --purple: #7C5CBF;
+    --d1: #E74C3C;
+    --d2: #3498DB;
+    --d3: #2ECC71;
+    --d4: #F39C12;
+    --d5: #9B59B6;
+    --sidebar-w: 280px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* Layout */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s;
+  }
+  .sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .sidebar-header h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.4;
+  }
+  .sidebar-header .back-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .sidebar-header .back-link:hover { color: var(--accent); }
+
+  .nav-section { padding: 8px 0; }
+  .nav-section-title {
+    padding: 4px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: var(--accent-dim); }
+  .nav-item.active {
+    background: var(--accent-dim);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+  .nav-item .badge {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .nav-item .badge.d1 { background: var(--d1); }
+  .nav-item .badge.d2 { background: var(--d2); }
+  .nav-item .badge.d3 { background: var(--d3); }
+  .nav-item .badge.d4 { background: var(--d4); }
+  .nav-item .badge.d5 { background: var(--d5); }
+  .nav-item .badge.util { background: var(--text-muted); }
+
+  /* Main */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 32px 48px 64px;
+    max-width: 960px;
+  }
+
+  /* Markdown content styles */
+  .md-content h1 { font-size: 28px; font-weight: 700; margin: 0 0 16px; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+  .md-content h2 { font-size: 22px; font-weight: 700; margin: 40px 0 16px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .md-content h3 { font-size: 18px; font-weight: 600; margin: 32px 0 12px; color: #444; }
+  .md-content h4 { font-size: 15px; font-weight: 600; margin: 24px 0 8px; color: #555; }
+  .md-content p { margin: 0 0 12px; font-size: 14.5px; }
+  .md-content ul, .md-content ol { margin: 0 0 16px; padding-left: 24px; font-size: 14.5px; }
+  .md-content li { margin-bottom: 4px; }
+  .md-content li > ul, .md-content li > ol { margin: 4px 0 4px; }
+  .md-content strong { color: #1a1a1a; }
+  .md-content blockquote {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    padding: 12px 16px;
+    margin: 12px 0 16px;
+    font-size: 14px;
+    border-radius: 0 6px 6px 0;
+  }
+  .md-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13.5px;
+  }
+  .md-content th {
+    background: var(--surface2);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .md-content td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .md-content tr:hover td { background: rgba(139,105,20,0.03); }
+  .md-content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--surface2);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #c0392b;
+  }
+  .md-content pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0 20px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .md-content pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 13px;
+  }
+  .md-content details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 8px 0 16px;
+  }
+  .md-content summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent);
+  }
+  .md-content details[open] summary { margin-bottom: 8px; }
+  .md-content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .md-content a { color: var(--tag-text); text-decoration: none; }
+  .md-content a:hover { text-decoration: underline; }
+
+  /* Mermaid */
+  .mermaid { margin: 16px 0 24px; text-align: center; }
+  .mermaid svg { max-width: 100%; }
+
+  /* Exam info bar */
+  .exam-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .exam-stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+  }
+  .exam-stat .num { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .exam-stat .label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Domain progress */
+  .domain-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 20px 0 32px; }
+  .domain-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-top: 3px solid;
+  }
+  .domain-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .domain-card.d1 { border-top-color: var(--d1); }
+  .domain-card.d2 { border-top-color: var(--d2); }
+  .domain-card.d3 { border-top-color: var(--d3); }
+  .domain-card.d4 { border-top-color: var(--d4); }
+  .domain-card.d5 { border-top-color: var(--d5); }
+  .domain-card .weight { font-size: 24px; font-weight: 700; }
+  .domain-card .d-title { font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .domain-card .d-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Mobile toggle */
+  .mobile-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 200;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  /* Search */
+  .search-box {
+    padding: 8px 20px 16px;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 16px 64px; }
+    .mobile-toggle { display: block; }
+    .exam-bar { flex-direction: column; }
+    .domain-cards { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>CCA Foundations<br>학습 허브</h1>
+      <a href="../index.html" class="back-link">&larr; Medium 아카이브로 돌아가기</a>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="검색 (예: escalation, 캐싱)">
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">허브</div>
+      <a class="nav-item active" data-file="README.md">
+        <span>홈 / 학습 로드맵</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">도메인 가이드</div>
+      <a class="nav-item" data-file="domain-1-agentic-architecture.md">
+        <span>D1. Agentic Architecture</span>
+        <span class="badge d1">27%</span>
+      </a>
+      <a class="nav-item" data-file="domain-2-tool-design-mcp.md">
+        <span>D2. Tool Design & MCP</span>
+        <span class="badge d2">18%</span>
+      </a>
+      <a class="nav-item" data-file="domain-3-claude-code.md">
+        <span>D3. Claude Code</span>
+        <span class="badge d3">20%</span>
+      </a>
+      <a class="nav-item" data-file="domain-4-prompt-engineering.md">
+        <span>D4. Prompt Engineering</span>
+        <span class="badge d4">20%</span>
+      </a>
+      <a class="nav-item" data-file="domain-5-context-management.md">
+        <span>D5. Context Management</span>
+        <span class="badge d5">15%</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">시험 특화 자료</div>
+      <a class="nav-item" data-file="anti-patterns.md">
+        <span>안티패턴 카탈로그</span>
+        <span class="badge util">25</span>
+      </a>
+      <a class="nav-item" data-file="flashcards.md">
+        <span>플래시카드</span>
+        <span class="badge util">100</span>
+      </a>
+      <a class="nav-item" data-file="cheatsheet.md">
+        <span>치트시트 (1페이지)</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">보완 자료</div>
+      <a class="nav-item" data-file="supplementary-resources.md">
+        <span>Anthropic 공식 문서 보완</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">원문 아티클 (시리즈)</div>
+      <a class="nav-item" data-file="../cca-foundations-exam-guide/original-en.md">
+        <span>[1] Foundations Guide</span>
+      </a>
+      <a class="nav-item" data-file="../cca-customer-support-agent/original-en.md">
+        <span>[2] Customer Support</span>
+      </a>
+      <a class="nav-item" data-file="../cca-code-generation-scenario/original-en.md">
+        <span>[3] Code Generation</span>
+      </a>
+      <a class="nav-item" data-file="../cca-structured-data-extraction/original-en.md">
+        <span>[4] Data Extraction</span>
+      </a>
+      <a class="nav-item" data-file="../cca-multi-agent-research/original-en.md">
+        <span>[5] Multi-Agent Research</span>
+      </a>
+      <a class="nav-item" data-file="../cca-cicd-scenario/original-en.md">
+        <span>[6] CI/CD</span>
+      </a>
+      <a class="nav-item" data-file="../cca-developer-productivity-scenario/original-en.md">
+        <span>[7] Developer Productivity</span>
+      </a>
+      <a class="nav-item" data-file="../cca-practice-exam-60-questions/original-en.md">
+        <span>[8] Practice Exam 60Q</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">한글 번역</div>
+      <a class="nav-item" data-file="../cca-foundations-exam-guide/original-ko.md">
+        <span>[1] 시험 가이드 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-customer-support-agent/original-ko.md">
+        <span>[2] 고객 지원 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-code-generation-scenario/original-ko.md">
+        <span>[3] 코드 생성 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-structured-data-extraction/original-ko.md">
+        <span>[4] 데이터 추출 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-multi-agent-research/original-ko.md">
+        <span>[5] 멀티에이전트 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-cicd-scenario/original-ko.md">
+        <span>[6] CI/CD (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-developer-productivity-scenario/original-ko.md">
+        <span>[7] 생산성 (KO)</span>
+      </a>
+      <a class="nav-item" data-file="../cca-practice-exam-60-questions/original-ko.md">
+        <span>[8] 모의시험 (KO)</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">시험 노트</div>
+      <a class="nav-item" data-file="../cca-foundations-exam-guide/study-notes.md">
+        <span>[1] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-customer-support-agent/study-notes.md">
+        <span>[2] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-code-generation-scenario/study-notes.md">
+        <span>[3] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-structured-data-extraction/study-notes.md">
+        <span>[4] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-multi-agent-research/study-notes.md">
+        <span>[5] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-cicd-scenario/study-notes.md">
+        <span>[6] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-developer-productivity-scenario/study-notes.md">
+        <span>[7] 시험 노트</span>
+      </a>
+      <a class="nav-item" data-file="../cca-practice-exam-60-questions/study-notes.md">
+        <span>[8] 시험 노트</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div id="home-view">
+      <div class="exam-bar">
+        <div class="exam-stat"><div class="num">60</div><div class="label">문항 (객관식)</div></div>
+        <div class="exam-stat"><div class="num">120</div><div class="label">분</div></div>
+        <div class="exam-stat"><div class="num">72%</div><div class="label">합격선 (43/60)</div></div>
+        <div class="exam-stat"><div class="num">$99</div><div class="label">응시 비용</div></div>
+        <div class="exam-stat"><div class="num">5</div><div class="label">도메인</div></div>
+      </div>
+
+      <div class="domain-cards">
+        <div class="domain-card d1" data-file="domain-1-agentic-architecture.md">
+          <div class="weight" style="color:var(--d1)">27%</div>
+          <div class="d-title">Agentic Architecture & Orchestration</div>
+          <div class="d-sub">~16문항 · 코디네이터, 에스컬레이션, 토폴로지</div>
+        </div>
+        <div class="domain-card d3" data-file="domain-3-claude-code.md">
+          <div class="weight" style="color:var(--d3)">20%</div>
+          <div class="d-title">Claude Code Configuration & Workflows</div>
+          <div class="d-sub">~12문항 · CLAUDE.md, CLI 플래그, CI/CD</div>
+        </div>
+        <div class="domain-card d4" data-file="domain-4-prompt-engineering.md">
+          <div class="weight" style="color:var(--d4)">20%</div>
+          <div class="d-title">Prompt Engineering & Structured Output</div>
+          <div class="d-sub">~12문항 · 3-Tier, Tool-forcing, JSON Schema</div>
+        </div>
+        <div class="domain-card d2" data-file="domain-2-tool-design-mcp.md">
+          <div class="weight" style="color:var(--d2)">18%</div>
+          <div class="d-title">Tool Design & MCP Integration</div>
+          <div class="d-sub">~11문항 · MCP 3 Primitives, 4-5 도구 규칙</div>
+        </div>
+        <div class="domain-card d5" data-file="domain-5-context-management.md">
+          <div class="weight" style="color:var(--d5)">15%</div>
+          <div class="d-title">Context Management & Reliability</div>
+          <div class="d-sub">~9문항 · 토큰 경제학, Prompt Caching</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md-content" id="content"></div>
+  </main>
+</div>
+
+<button class="mobile-toggle" id="mobileToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<script>
+mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+
+const renderer = new marked.Renderer();
+renderer.code = function({ text, lang }) {
+  if (lang === 'mermaid') {
+    return `<div class="mermaid">${text}</div>`;
+  }
+  const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<pre><code class="language-${lang || ''}">${escaped}</code></pre>`;
+};
+
+marked.setOptions({
+  renderer,
+  gfm: true,
+  breaks: false
+});
+
+let currentFile = null;
+const contentEl = document.getElementById('content');
+const homeView = document.getElementById('home-view');
+const searchInput = document.getElementById('searchInput');
+
+async function loadFile(file) {
+  // Update active nav
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const activeNav = document.querySelector(`.nav-item[data-file="${file}"]`);
+  if (activeNav) activeNav.classList.add('active');
+
+  // Show/hide home view
+  if (file === 'README.md') {
+    homeView.style.display = 'block';
+  } else {
+    homeView.style.display = 'none';
+  }
+
+  try {
+    const res = await fetch(file);
+    if (!res.ok) throw new Error(`${res.status}`);
+    const md = await res.text();
+    contentEl.innerHTML = marked.parse(md);
+
+    // Render mermaid diagrams
+    const mermaidEls = contentEl.querySelectorAll('.mermaid');
+    for (let i = 0; i < mermaidEls.length; i++) {
+      try {
+        const { svg } = await mermaid.render(`mermaid-${Date.now()}-${i}`, mermaidEls[i].textContent);
+        mermaidEls[i].innerHTML = svg;
+      } catch (e) {
+        // Keep raw text if mermaid fails
+        mermaidEls[i].style.background = '#f5f5f5';
+        mermaidEls[i].style.padding = '12px';
+        mermaidEls[i].style.fontSize = '12px';
+        mermaidEls[i].style.textAlign = 'left';
+        mermaidEls[i].style.whiteSpace = 'pre';
+      }
+    }
+
+    window.scrollTo(0, 0);
+    currentFile = file;
+
+    // Update URL hash
+    history.replaceState(null, '', '#' + file);
+
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  } catch (e) {
+    contentEl.innerHTML = `<p style="color:#c0392b;">파일을 불러올 수 없습니다: ${file}<br><small>${e.message}</small></p>`;
+  }
+}
+
+// Click handlers
+document.querySelectorAll('.nav-item[data-file]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    loadFile(el.dataset.file);
+  });
+});
+
+document.querySelectorAll('.domain-card[data-file]').forEach(el => {
+  el.addEventListener('click', () => loadFile(el.dataset.file));
+});
+
+// Search within loaded content
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) {
+    // Remove highlights
+    contentEl.innerHTML = contentEl.innerHTML.replace(/<mark class="search-hl">(.*?)<\/mark>/g, '$1');
+    return;
+  }
+  // Simple highlight in current content
+  const walk = document.createTreeWalker(contentEl, NodeFilter.SHOW_TEXT);
+  // Re-render and highlight
+  if (currentFile) {
+    fetch(currentFile).then(r => r.text()).then(md => {
+      let html = marked.parse(md);
+      const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      // Only highlight in text, not in tags
+      html = html.replace(/>([^<]+)</g, (match, text) => {
+        return '>' + text.replace(regex, '<mark class="search-hl" style="background:#FFEAA7;padding:1px 2px;border-radius:2px;">$1</mark>') + '<';
+      });
+      contentEl.innerHTML = html;
+      // Scroll to first highlight
+      const first = contentEl.querySelector('.search-hl');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+});
+
+// Load from hash or default
+const hash = window.location.hash.slice(1);
+if (hash) {
+  loadFile(hash);
+} else {
+  loadFile('README.md');
+}
+</script>
+</body>
+</html>
