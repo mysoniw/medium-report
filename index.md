@@ -32,6 +32,8 @@
 | 15 | [Langfuse vs LangSmith: AI 에이전트 관측성 플랫폼 비교](langfuse-vs-langsmith/report.md) | AI Engineering/관측성 | `#AI-observability` `#Langfuse` `#LangSmith` `#LangGraph` `#OpenTelemetry` `#agent-tracing` `#LLM-evaluation` | Rick Hightower | 2026-04-04 | `langfuse-vs-langsmith/` |
 | 16 | [아젠틱 코딩 프레임워크 실전 가이드](agentic-frameworks-practical-guide/report.md) | AI Engineering/개발 방법론 | `#agentic-coding` `#framework-comparison` `#GSD` `#Superpowers` `#BMAD` `#SpecKit` `#OpenSpec` `#TDD` | 종합 조사 | 2026-04-04 | `agentic-frameworks-practical-guide/` |
 | 17 | [CCA 시험 준비 학습 허브](cca-study-hub/README.md) | AI/자격증 | `#CCA` `#claude-certified-architect` `#study-hub` `#exam-prep` `#flashcards` `#cheatsheet` `#anti-patterns` | 종합 정리 | 2026-04-05 | `cca-study-hub/` |
+| 18 | [15개 SDD 프레임워크 비교 — 산출물·결정 경로·시장 구조](15-sdd-frameworks-comparison/report.md) | AI Engineering/개발 방법론 | `#SDD` `#spec-driven-development` `#framework-comparison` `#Spec-Kit` `#Superpowers` `#MUSUBI` `#Tessl` `#CSDD` `#TDD` `#constitution-pattern` `#EARS` `#living-spec` | Jarosław Wasowski | 2026-04-24 | `15-sdd-frameworks-comparison/` |
+| 19 | [SDD 3단계 성숙도 — 모든 AI 팀이 알아야 할 사다리](sdd-three-maturity-levels/report.md) | AI Engineering/개발 방법론 | `#SDD` `#spec-driven-development` `#maturity-model` `#spec-first` `#spec-anchored` `#spec-as-source` `#CLAUDE-md` `#living-spec` `#specification-drift` `#SLUMP` `#constitution-pattern` `#vibe-coding` | Jarosław Wasowski | 2026-04-11 | `sdd-three-maturity-levels/` |
 
 ---
 
@@ -81,17 +83,22 @@
 ### 학습/생산성
 - [NotebookLM 11단계 학습 워크플로우](notebooklm-learning-workflow/report.md) — Google NotebookLM으로 기술 서적 체계적 학습법
 
+### AI Engineering/개발 방법론
+- [아젠틱 코딩 프레임워크 실전 가이드](agentic-frameworks-practical-guide/report.md) — 5개 아젠틱 프레임워크(BMAD, SpecKit, OpenSpec, GSD, Superpowers) 심층 비교, 하이브리드 조합 전략, 설치/커맨드 Hands-On
+- [15개 SDD 프레임워크 비교 — 산출물·결정 경로·시장 구조](15-sdd-frameworks-comparison/report.md) — Piskala 2026 3-레벨 엄격성 분류(L1/L2/L3), MUSUBI EARS·Tessl Spec-as-Source·CSDD 73% 보안 결함 감소, 4-Decision-Path 매트릭스
+- [SDD 3단계 성숙도 — 모든 AI 팀이 알아야 할 사다리](sdd-three-maturity-levels/report.md) — Spec-First/Spec-Anchored/Spec-as-Source 사다리, SLUMP 90% 충실도 회복, IFScale 200줄 천장, BDD vs MDA 운명 분기
+
 ---
 
 ## 태그 인덱스
 
 | 태그 | 관련 문서 |
 |------|----------|
-| `#agentic-coding` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
-| `#framework-comparison` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
+| `#agentic-coding` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md), [하네스 엔지니어링](anthropics-harness-engineering/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#framework-comparison` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
 | `#AI-agent` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
 | `#context-engineering` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
-| `#TDD` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
+| `#TDD` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
 | `#claude-code` | [슬래시 커맨드](claude-code-slash-commands/report.md), [Boris 팁 스킬](boris-cherny-claude-code-tips-skill/report.md), [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [CCA CI/CD](cca-cicd-scenario/report.md), [서브에이전트 조율](claude-code-subagents-coordination/report.md) |
 | `#claude-code-skills` | [Boris 팁 스킬](boris-cherny-claude-code-tips-skill/report.md) |
 | `#slash-commands` | [슬래시 커맨드](claude-code-slash-commands/report.md) |
@@ -158,3 +165,24 @@
 | `#OpenTelemetry` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
 | `#agent-tracing` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
 | `#LLM-evaluation` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
+| `#SDD` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#spec-driven-development` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#maturity-model` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#spec-first` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#spec-anchored` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#spec-as-source` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#CLAUDE-md` (전역) | [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#specification-drift` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#SLUMP` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#vibe-coding` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#Spec-Kit` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md) |
+| `#Superpowers` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md) |
+| `#MUSUBI` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#Tessl` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#CSDD` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#OpenSpec` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md) |
+| `#constitution-pattern` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#EARS` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#traceability-matrix` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#living-spec` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#MCP` (이외에 위쪽 CCA 관련 항목 참조) | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [CCA 시험 가이드](cca-foundations-exam-guide/report.md), [CCA 생산성 시나리오](cca-developer-productivity-scenario/report.md) |
