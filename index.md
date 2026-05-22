@@ -34,6 +34,7 @@
 | 17 | [CCA 시험 준비 학습 허브](cca-study-hub/README.md) | AI/자격증 | `#CCA` `#claude-certified-architect` `#study-hub` `#exam-prep` `#flashcards` `#cheatsheet` `#anti-patterns` | 종합 정리 | 2026-04-05 | `cca-study-hub/` |
 | 18 | [15개 SDD 프레임워크 비교 — 산출물·결정 경로·시장 구조](15-sdd-frameworks-comparison/report.md) | AI Engineering/개발 방법론 | `#SDD` `#spec-driven-development` `#framework-comparison` `#Spec-Kit` `#Superpowers` `#MUSUBI` `#Tessl` `#CSDD` `#TDD` `#constitution-pattern` `#EARS` `#living-spec` | Jarosław Wasowski | 2026-04-24 | `15-sdd-frameworks-comparison/` |
 | 19 | [SDD 3단계 성숙도 — 모든 AI 팀이 알아야 할 사다리](sdd-three-maturity-levels/report.md) | AI Engineering/개발 방법론 | `#SDD` `#spec-driven-development` `#maturity-model` `#spec-first` `#spec-anchored` `#spec-as-source` `#CLAUDE-md` `#living-spec` `#specification-drift` `#SLUMP` `#constitution-pattern` `#vibe-coding` | Jarosław Wasowski | 2026-04-11 | `sdd-three-maturity-levels/` |
+| 20 | [SDD를 대체하는 방법 — IDSD(의도 주도 개발)](idsd-replaces-sdd/report.md) | AI Engineering/개발 방법론 | `#SDD` `#spec-driven-development` `#IDSD` `#intent-driven-development` `#ICE-framework` `#agentic-coding` `#vibe-coding` `#harness-engineering` | Kapil Viren Ahuja | 2026-05-20 | `idsd-replaces-sdd/` |
 
 ---
 
@@ -87,6 +88,7 @@
 - [아젠틱 코딩 프레임워크 실전 가이드](agentic-frameworks-practical-guide/report.md) — 5개 아젠틱 프레임워크(BMAD, SpecKit, OpenSpec, GSD, Superpowers) 심층 비교, 하이브리드 조합 전략, 설치/커맨드 Hands-On
 - [15개 SDD 프레임워크 비교 — 산출물·결정 경로·시장 구조](15-sdd-frameworks-comparison/report.md) — Piskala 2026 3-레벨 엄격성 분류(L1/L2/L3), MUSUBI EARS·Tessl Spec-as-Source·CSDD 73% 보안 결함 감소, 4-Decision-Path 매트릭스
 - [SDD 3단계 성숙도 — 모든 AI 팀이 알아야 할 사다리](sdd-three-maturity-levels/report.md) — Spec-First/Spec-Anchored/Spec-as-Source 사다리, SLUMP 90% 충실도 회복, IFScale 200줄 천장, BDD vs MDA 운명 분기
+- [SDD를 대체하는 방법 — IDSD(의도 주도 개발)](idsd-replaces-sdd/report.md) — SDD의 결함은 두 개의 인간적 간극. OpenAI Symphony는 옹호가 아니라 반증. ICE(Intent·Context·Expectations) 프레임, Intent 5요소, 저자의 $985 재작업, "게이트 승인이 아니라 루프 안의 현존", 비용은 결국 클라이언트 청구서로
 
 ---
 
@@ -94,7 +96,7 @@
 
 | 태그 | 관련 문서 |
 |------|----------|
-| `#agentic-coding` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md), [하네스 엔지니어링](anthropics-harness-engineering/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
+| `#agentic-coding` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md), [하네스 엔지니어링](anthropics-harness-engineering/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [IDSD](idsd-replaces-sdd/report.md) |
 | `#framework-comparison` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
 | `#AI-agent` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
 | `#context-engineering` | [프레임워크 대격돌](agentic-framework-showdown/report.md) |
@@ -152,7 +154,7 @@
 | `#context-engineering` | [프레임워크 대격돌](agentic-framework-showdown/report.md), [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
 | `#agent-skills` | [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
 | `#tool-management` | [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
-| `#harness-engineering` | [하네스 엔지니어링](anthropics-harness-engineering/report.md), [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md) |
+| `#harness-engineering` | [하네스 엔지니어링](anthropics-harness-engineering/report.md), [MCP 컨텍스트 위기](is-mcp-dead-context-crisis/report.md), [IDSD](idsd-replaces-sdd/report.md) |
 | `#practice-exam` | [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
 | `#study-hub` | [CCA 학습 허브](cca-study-hub/README.md) |
 | `#exam-prep` | [CCA 학습 허브](cca-study-hub/README.md), [CCA 모의시험](cca-practice-exam-60-questions/report.md) |
@@ -165,8 +167,11 @@
 | `#OpenTelemetry` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
 | `#agent-tracing` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
 | `#LLM-evaluation` | [Langfuse vs LangSmith](langfuse-vs-langsmith/report.md) |
-| `#SDD` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
-| `#spec-driven-development` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#SDD` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md), [IDSD](idsd-replaces-sdd/report.md) |
+| `#spec-driven-development` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md), [IDSD](idsd-replaces-sdd/report.md) |
+| `#IDSD` | [IDSD](idsd-replaces-sdd/report.md) |
+| `#intent-driven-development` | [IDSD](idsd-replaces-sdd/report.md) |
+| `#ICE-framework` | [IDSD](idsd-replaces-sdd/report.md) |
 | `#maturity-model` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
 | `#spec-first` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
 | `#spec-anchored` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
@@ -174,7 +179,7 @@
 | `#CLAUDE-md` (전역) | [CCA 생산성](cca-developer-productivity-scenario/report.md), [CCA 코드생성](cca-code-generation-scenario/report.md), [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
 | `#specification-drift` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
 | `#SLUMP` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
-| `#vibe-coding` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md) |
+| `#vibe-coding` | [SDD 3단계 성숙도](sdd-three-maturity-levels/report.md), [IDSD](idsd-replaces-sdd/report.md) |
 | `#Spec-Kit` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md) |
 | `#Superpowers` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md), [실전 가이드](agentic-frameworks-practical-guide/report.md) |
 | `#MUSUBI` | [15개 SDD 프레임워크 비교](15-sdd-frameworks-comparison/report.md) |
