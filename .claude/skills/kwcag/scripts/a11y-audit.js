@@ -7,7 +7,7 @@
  *
  * 사용 (SKILL.md §3 참고):
  *   # 1) 초기 스캔 (이 파일을 통째로 eval → 위반 JSON 반환)
- *   cmux browser --surface <ID> eval "$(cat .claude/skills/kwcag-accessibility/scripts/a11y-audit.js)"
+ *   cmux browser --surface <ID> eval "$(cat .claude/skills/kwcag/scripts/a11y-audit.js)"
  *
  *   # 2) 이후 상호작용 후 재스캔
  *   cmux browser --surface <ID> eval "JSON.stringify(window.runA11yAudit(), null, 2)"

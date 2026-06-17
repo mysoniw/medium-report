@@ -1,19 +1,31 @@
 ---
 name: kwcag-accessibility
 description: >-
-  시각장애인 등 장애인을 위한 웹/모바일 접근성을 설계·구현·점검·인증하려 할 때 사용한다.
+  시각장애인 등 장애인을 위한 웹/모바일 접근성을 설계·구현·점검·인증할 때 사용한다.
   한국형 웹 콘텐츠 접근성 지침 KWCAG 2.2(4원칙·14지침·33검사항목), WCAG 2.2 AA,
-  EN 301 549/EAA 국내외 표준과 인증(WA 품질마크) 절차를 다룬다. Vue.js 접근 가능한
-  컴포넌트(모달·폼·메뉴), vue-router 초점 관리 + aria-live 셋업, Spring Boot 백엔드
-  고려사항, 그리고 자동 도구로 못 잡는 항목을 cmux 브라우저로 DOM 변화를 실시간
-  모니터링하며 점검하는 플레이북을 제공한다. 트리거: "접근성", "a11y", "KWCAG",
-  "WCAG", "웹 접근성 인증", "WA 마크", "스크린리더", "시각장애인", "접근성 점검/감리".
+  EN 301 549/EAA 등 국내외 표준과 WA 품질마크 인증 절차를 다룬다. Vue.js 접근 가능
+  컴포넌트(모달·폼·메뉴·콤보박스·테이블), vue-router 초점 관리 + aria-live, Spring Boot
+  백엔드, 모바일/반응형, 테스트 자동화(axe·playwright)와 cmux 브라우저 DOM 실시간
+  모니터링 플레이북, 수동 점검·VPAT까지 제공한다.
+when_to_use: >-
+  사용자가 접근성·a11y·KWCAG·WCAG·웹 접근성 인증·WA 마크·스크린리더·시각장애인·
+  접근성 점검/감리를 언급하거나, Vue·Spring Boot로 접근성 준수 사이트를 만들거나
+  점검·인증 준비할 때.
+argument-hint: "[개요|체크리스트|컴포넌트|라우팅|백엔드|모바일|테스트|인증|점검 <URL>]"
 ---
 
 # KWCAG 2.2 웹·모바일 접근성 스킬
 
 시각장애인을 비롯한 장애인 사용자가 이용 가능한 사이트를 만들고 **국내외 접근성 인증을
-통과**하기 위한 단일 진입점. 다른 에이전트가 참고(reference)하거나 직접 호출(`/kwcag`)할 수 있다.
+통과**하기 위한 단일 진입점. Claude가 관련 요청에 자동 활성화하거나, `/kwcag [요청]`으로
+직접 호출한다.
+
+## 요청 라우팅 (이 스킬이 받은 요청)
+
+요청: **$ARGUMENTS**
+
+위 요청을 §1 레퍼런스 표에서 매칭해 **필요한 파일만 읽어** 적용한다(점진적 로딩).
+URL이 주어지면 모드 B(점검)로, 빈 요청이면 이 개요와 §2 워크플로우를 안내한다.
 
 ## 0. 한눈에 보는 목표
 
@@ -76,7 +88,7 @@ cmux browser open-split http://localhost:5173
 cmux browser --surface <ID> wait --load-state complete
 
 # 3) 점검 스크립트 주입 → JSON 위반 목록 수집
-cmux browser --surface <ID> eval "$(cat .claude/skills/kwcag-accessibility/scripts/a11y-audit.js)"
+cmux browser --surface <ID> eval "$(cat .claude/skills/kwcag/scripts/a11y-audit.js)"
 ```
 
 ### 3-2. DOM 변화 실시간 감시 (MutationObserver 등록)
