@@ -76,8 +76,20 @@ URL이 주어지면 모드 B(점검)로, 빈 요청이면 이 개요와 §2 워�
 ## 3. cmux 브라우저 실시간 DOM 모니터링 (자동화 보완)
 
 자동 정적 검사로 못 잡는 **동적·상호작용 항목**(초점 이동, 모달 포커스 트랩, 라우팅 후
-초점, `aria-live` 알림 발화, 동적 콘텐츠 변경, 키보드 조작 가능성)은 cmux로 실제 브라우저를
-띄워 DOM 변화를 실시간 관찰하며 검증한다. (※ cmux는 로컬 실행 환경에서 동작)
+초점, `aria-live` 알림 발화, 동적 콘텐츠 변경, 키보드 조작 가능성)은 cmux 내장 브라우저를
+띄워 DOM 변화를 실시간 관찰하며 검증한다.
+
+### 3-0. 전제 — cmux 스킬을 먼저 로드
+
+브라우저 자동화는 **`cmux` 스킬(`~/.claude/skills/cmux/`)을 로드해서** 수행한다. 이 스킬을
+통해 AI가 cmux **내장 브라우저를 직접 제어**하고, 브라우저 **개발자 도구(DevTools)**
+— 콘솔·네트워크·접근성 트리·요소 검사 — 까지 확인할 수 있다. (※ cmux는 로컬 실행 환경에서 동작)
+
+```text
+# 작업 전 cmux 스킬을 로드한다 (예)
+/cmux            또는  "cmux 스킬 로드"  →  내장 브라우저 + DevTools 제어 가능
+```
+로드 후 아래 `cmux browser ...` 명령으로 페이지를 열고, DOM 주입 점검과 DevTools 점검을 함께 쓴다.
 
 ### 3-1. 페이지 열고 점검 스크립트 주입
 ```bash
@@ -120,8 +132,31 @@ cmux browser --surface <ID> eval "Array.from(document.querySelectorAll('a[href],
 cmux browser --surface <ID> eval "Array.from(document.querySelectorAll('[aria-live],[role=alert],[role=status]')).map(el=>({live:el.getAttribute('aria-live'),role:el.getAttribute('role'),text:el.innerText.slice(0,50)}))"
 ```
 
-> cmux가 없는 환경(원격 CI 등)에서는 Playwright로 동일 패턴을 구현할 수 있다.
-> `page.evaluate(auditFn)` + `page.on('domcontentloaded')` + `MutationObserver` 조합.
+### 3-5. 개발자 도구(DevTools) 활용 점검 — cmux 스킬의 강점
+
+cmux 스킬로 내장 브라우저를 제어하면 **DevTools 기능을 a11y 검사에 직접 활용**할 수 있다.
+이는 DOM 주입(eval)만으로는 못 하는 점검이다.
+
+- **접근성 트리 확인**: DevTools Accessibility 패널 / CDP로 실제 보조기술에 노출되는
+  이름·역할·상태(Accessible Name·Role)를 확인 → 시각적 텍스트와 접근 가능한 이름 불일치 검출.
+- **콘솔 경고 수집**: Vue 경고, ARIA 잘못된 속성, 깨진 `aria-labelledby` 참조 등이 콘솔에 뜬다.
+  ```bash
+  # 콘솔에 쌓인 a11y/Vue 경고 확인 (DevTools 콘솔)
+  cmux browser --surface <ID> eval "JSON.stringify(window.__consoleWarnings || [], null, 2)"
+  ```
+- **시각 결함 에뮬레이션**(저시력/색각 검증): DevTools Rendering 패널에서
+  - 색각 이상(적/녹/청색맹) 에뮬레이션 → 색에만 의존한 정보(#6) 검출
+  - `prefers-reduced-motion` / `prefers-contrast` / `forced-colors` 강제 → 해당 대응(모바일 문서) 검증
+- **명도 대비 도구**: DevTools 요소 검사의 Contrast 비율 표시로 4.5:1 즉석 확인(#8).
+- **Lighthouse 패널**: 브라우저 내에서 접근성 점수 + 위반을 바로 실행.
+- **네트워크 패널**: 자막 트랙(WebVTT)·`lang` 응답 헤더 등 백엔드 협조 항목 확인.
+
+> 정리: **DOM 주입(3-1~3-4)** = 위반 자동 수집, **DevTools(3-5)** = 접근성 트리·콘솔·시각
+> 에뮬레이션처럼 사람이 봐야 하는 맥락 점검. cmux 스킬은 이 둘을 한 브라우저에서 가능케 한다.
+
+> cmux가 없는 환경(원격 CI 등)에서는 Playwright로 동등 구현 가능: `page.evaluate(auditFn)`
+> + `page.on('console')`(콘솔 경고) + `page.emulateMedia({ reducedMotion, forcedColors })`
+> + CDP `Accessibility.getFullAXTree`(접근성 트리) + `MutationObserver` 조합.
 
 ## 4. Spring Boot 백엔드 (요약 — 상세 코드는 `backend-spring.md`)
 

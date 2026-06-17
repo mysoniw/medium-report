@@ -86,9 +86,10 @@ test('라우팅 후 제목·초점 갱신', async ({ page }) => {
 })
 ```
 
-> **cmux와의 관계**: Playwright는 CI(헤드리스)용 자동 게이트, cmux는 개발자가 **눈으로
-> DOM 변화를 실시간 보며** 탐색적으로 점검하는 용도. `SKILL.md`의 `a11y-audit.js`는 양쪽에서
-> 재사용 가능(`page.evaluate(auditFn)` ↔ `cmux ... eval`).
+> **cmux와의 관계**: Playwright는 CI(헤드리스)용 자동 게이트, cmux는 **`cmux` 스킬을 로드**해
+> AI가 내장 브라우저 + **개발자 도구(접근성 트리·콘솔·시각 결함 에뮬레이션)**를 직접 제어하며
+> 탐색적으로 점검하는 용도(`SKILL.md` §3). `a11y-audit.js`는 양쪽에서 재사용 가능
+> (`page.evaluate(auditFn)` ↔ `cmux ... eval`).
 
 ---
 
