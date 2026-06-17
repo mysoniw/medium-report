@@ -15,7 +15,12 @@
 | 전체 개요/어디서 시작? | `kwcag-accessibility/SKILL.md` | 워크플로우 안내 |
 | 검사항목/체크리스트 | `SKILL.md` + `checklist.md` | 33항목 평가표 |
 | Vue 컴포넌트(모달/폼/메뉴/탭) | `vue-patterns.md` | 접근 가능한 코드 |
+| 심화 위젯(토스트/콤보박스/아코디언/테이블/페이지네이션) | `vue-patterns-advanced.md` | 위젯 코드 |
 | 라우팅 초점/aria-live | `router-focus.md` | SPA 초점·안내 셋업 |
+| Spring Boot 백엔드 | `backend-spring.md` | DTO·검증·i18n·세션·인증 코드 |
+| 모바일/반응형/줌/모션/PWA/MA | `mobile-responsive.md` | 모바일 대응 |
+| 테스트 자동화/CI | `testing-ci.md` | eslint·axe·playwright·Actions |
+| 수동 테스트/감리/VPAT | `manual-testing.md` | 시나리오·평가시트·적합성 선언 |
 | 표준/인증/비용/EN 301 549 | `standards.md` | 인증 로드맵 |
 | 기존 사이트 점검/감리 | `SKILL.md` §3 + `scripts/a11y-audit.js` | cmux 실시간 DOM 점검 |
 

@@ -36,18 +36,23 @@ description: >-
 |------|-----------|
 | [`checklist.md`](./checklist.md) | KWCAG 2.2 33개 검사항목 + WCAG 2.2 SC 매핑 + 시각장애 우선순위 |
 | [`vue-patterns.md`](./vue-patterns.md) | 접근 가능한 Vue 컴포넌트(모달·폼·메뉴·탭) 완성 코드 |
+| [`vue-patterns-advanced.md`](./vue-patterns-advanced.md) | 심화 위젯(토스트·콤보박스·아코디언·정렬테이블·페이지네이션·로딩·빵부스러기) |
 | [`router-focus.md`](./router-focus.md) | SPA 라우팅 초점 관리, 페이지 제목, `aria-live` 알림 셋업 |
+| [`backend-spring.md`](./backend-spring.md) | Spring Boot 백엔드 — DTO alt 필드·검증오류·i18n·세션·인증 코드 |
+| [`mobile-responsive.md`](./mobile-responsive.md) | 모바일/터치/줌·리플로우/모션·고대비/PWA/MA 인증 |
+| [`testing-ci.md`](./testing-ci.md) | 자동화 — eslint-a11y·vitest-axe·axe-playwright·Lighthouse·GitHub Actions |
+| [`manual-testing.md`](./manual-testing.md) | 수동 시나리오(키보드·스크린리더·저시력) + 평가시트 + VPAT/적합성 선언 |
 | [`standards.md`](./standards.md) | 국내외 표준·인증기관·비용·절차·법적 근거(출처 포함) |
 | [`scripts/a11y-audit.js`](./scripts/a11y-audit.js) | 브라우저에 주입하는 실시간 DOM 점검 스크립트 |
 
 ## 2. 작업 워크플로우
 
 ### 모드 A — 신규 구축 (설계부터 접근성 내장)
-1. `vue-patterns.md`의 컴포넌트 패턴으로 UI를 만든다(시맨틱 HTML 우선, ARIA는 보조).
+1. `vue-patterns.md` + `vue-patterns-advanced.md` 패턴으로 UI를 만든다(시맨틱 HTML 우선, ARIA는 보조).
 2. `router-focus.md`로 라우팅 초점·`aria-live`·`lang`·문서 제목을 셋업한다.
-3. 백엔드(Spring Boot)는 §4 원칙을 따른다.
-4. 개발 중 `eslint-plugin-vuejs-accessibility` + axe-core CI로 자동 회귀 방지.
-5. 머지 전 §3 cmux 실시간 감리로 동적 항목을 검증한다.
+3. 백엔드는 `backend-spring.md`, 모바일/반응형/모션은 `mobile-responsive.md`를 따른다.
+4. `testing-ci.md`로 eslint-a11y + vitest-axe + axe-playwright + Lighthouse CI 게이트를 건다.
+5. 머지 전 §3 cmux 실시간 감리 + `manual-testing.md` 수동 점검으로 동적·맥락 항목을 검증한다.
 
 ### 모드 B — 기존 사이트 감리/인증 준비
 1. `checklist.md` 33항목을 페이지별로 평가표에 매핑한다.
@@ -106,15 +111,13 @@ cmux browser --surface <ID> eval "Array.from(document.querySelectorAll('[aria-li
 > cmux가 없는 환경(원격 CI 등)에서는 Playwright로 동일 패턴을 구현할 수 있다.
 > `page.evaluate(auditFn)` + `page.on('domcontentloaded')` + `MutationObserver` 조합.
 
-## 4. Spring Boot 백엔드 체크리스트
+## 4. Spring Boot 백엔드 (요약 — 상세 코드는 `backend-spring.md`)
 
-접근성은 90%가 프론트지만 백엔드도 기여한다.
-- 이미지/미디어 응답에 **대체텍스트(alt)·캡션 필드를 데이터 모델에 포함** (누락 시 프론트가
-  생성 불가 → KWCAG 5.1.1 위반).
-- **정확한 HTTP 상태코드 + 명확한 한국어 오류 메시지** → 프론트가 `aria-live`/`role=alert`로 전달.
-- `Content-Language` 헤더, i18n 메시지로 **언어 명시**(KWCAG 기본 언어 표시 / WCAG 3.1.1).
-- 폼 검증 오류는 **필드별 식별자 + 정정 안내 문구**를 구조화해 반환(WCAG 3.3.1/3.3.3).
-- 세션 타임아웃 시 **연장/경고 API** 제공(WCAG 2.2.1 응답시간 조절).
+접근성은 90%가 프론트지만 백엔드가 데이터·오류·언어·시간을 어떻게 내려주느냐가 좌우한다.
+- 이미지/미디어 응답에 **대체텍스트(alt)·캡션 필드를 데이터 모델에 포함**, 업로드 시 alt 필수 검증.
+- 폼 검증 오류는 **`{field, message}` 구조 + i18n**으로 반환 → 프론트가 `aria-describedby`/`role=alert` 매핑.
+- **정직한 HTTP 상태코드**(200에 에러 금지), `Content-Language` 헤더 + 메시지 i18n.
+- **세션 남은시간/연장 API**(WCAG 2.2.1), 인증에서 붙여넣기·자동완성 허용(WCAG 3.3.8).
 
 ## 5. 자주 지적되는 Top 위반 (시각장애 관점)
 1. 의미 없는 alt(`alt="image"`) 또는 alt 누락 — **5.1.1**
