@@ -4,6 +4,10 @@
 가거나, 갇히면 그 사용자는 길을 잃는다. 시각장애 인증에서 가장 자주 실패하는 영역이라
 별도 심화로 정리한다. (관련: 모달은 `vue-patterns.md`, SPA 라우팅은 `router-focus.md`)
 
+> 이 문서는 **웹(DOM/CSS/JS)** 초점 기준. **네이티브 앱**의 초점은 다른 API를 쓴다(Android
+> `importantForAccessibility`/`accessibilityTraversalAfter`, iOS `isAccessibilityElement`/
+> `UIAccessibilityPostNotification`) → **`macag` 스킬** §3 참고.
+
 ---
 
 ## 0. 초점 관련 검사항목 매핑

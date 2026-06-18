@@ -98,22 +98,21 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 ---
 
-## 9. 모바일 앱(네이티브) — 별도 인증(MA) 안내
+## 9. 모바일 앱(네이티브) — 별도 표준·인증 → `macag` 스킬
 
 Vue로 **모바일 웹/PWA**를 만들면 본 스킬(웹/KWCAG)이 그대로 적용된다. 그러나
-**네이티브 앱**(또는 WebView 래핑한 하이브리드 앱)으로 스토어 배포한다면, 국내 인증은
-웹(WA)과 별개인 **모바일 애플리케이션 접근성(MA) 인증** 대상이 될 수 있다.
+**네이티브 앱**(또는 WebView 래핑 하이브리드 앱)으로 스토어 배포하면, 웹(WA)과 별개인
+**MACAG 2.0(4원칙·18검사항목, KS 국가표준) + MA 인증** 대상이다.
 
-| 구분 | 표준/지침 | 인증 |
-|------|-----------|------|
-| 웹 / 모바일 웹 / PWA | KWCAG 2.x | **WA** 품질마크 |
-| 네이티브 모바일 앱 | 모바일 애플리케이션 콘텐츠 접근성 지침(KS) | **MA** 인증 |
-| iOS | Apple Accessibility(VoiceOver, Dynamic Type) | 스토어 심사 |
-| Android | Android Accessibility(TalkBack) | 스토어 심사 |
+| 구분 | 표준/지침 | 인증 | 다룰 스킬 |
+|------|-----------|------|-----------|
+| 웹 / 모바일 웹 / PWA | KWCAG 2.x | **WA** 품질마크 | **이 스킬(kwcag)** |
+| 네이티브 모바일 앱 | **MACAG 2.0** | **MA** 인증 | **`macag` 스킬** |
+| 하이브리드(WebView) | 둘 다 | WA+MA | WebView=kwcag, 셸=macag |
 
-- 하이브리드(Capacitor/WebView)면 WebView 내부는 웹 접근성, 네이티브 셸은 OS 접근성 API
-  (iOS `accessibilityLabel`, Android `contentDescription`)를 함께 챙긴다.
-- 정확한 MA 인증 대상·기준은 인증기관(KWACC/wa.or.kr)에 확인 → `standards.md` 참조.
+> 👉 **네이티브 앱 접근성의 18항목·네이티브 초점 API(`importantForAccessibility`/`isAccessibilityElement`),
+> 대체텍스트 Label(`contentDescription`/`accessibilityLabel`), 컨트롤 9mm, OS 폰트(Dynamic Type),
+> TalkBack 심사 기준, MA 인증 절차는 자매 스킬 `macag`(`/macag`)에 전부 정리되어 있다.**
 
 ## 모바일/반응형 체크리스트
 - [ ] 터치타깃 ≥ 44×44, 충분한 간격
