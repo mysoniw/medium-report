@@ -21,15 +21,19 @@
 | 폼 제출 | 오류 시 첫 오류 필드로 초점 이동 |
 
 > cmux로 초점 추적: `SKILL.md` §3-3의 `document.activeElement` 폴링 활용.
+> 초점 표시·순서·트랩·복귀·로빙탭인덱스 등 **초점 심화는 `focus-management.md`** 참고.
 
 ---
 
 ## 2. 스크린리더 청취 테스트
 
 권장 조합: **Windows + NVDA**(무료), **macOS/iOS + VoiceOver**, **Android + TalkBack**,
-국내 인증 대비 **센스리더**. (`standards.md` §4)
+국내 인증 대비 **센스리더**.
 
-### NVDA 핵심 단축키
+> **스크린리더 동작 모델·단축키·제스처·이름 계산·모바일 특화·흔한 버그·테스트 환경 셋업의
+> 전체 심화는 `screen-readers.md`** 를 본다. 아래는 빠른 참조용 NVDA 단축키 요약.
+
+### NVDA 핵심 단축키 (전체는 `screen-readers.md` §7)
 | 키 | 동작 |
 |----|------|
 | NVDA(Insert) + ↓ | 전체 읽기 |

@@ -69,6 +69,7 @@ for (const path of PAGES) {
   })
 }
 
+// 초점 시나리오의 원리·엣지케이스는 focus-management.md §4~5, §11 참고
 test('모달 포커스 트랩 + 초점 복귀', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '열기' }).click()
@@ -147,11 +148,11 @@ jobs:
 | E2E | @axe-core/playwright | 렌더된 DOM·대비·구조 | 의미·맥락 X |
 | 점수 | Lighthouse CI | 회귀 게이트(점수) | 정밀도 낮음 |
 | 탐색 | **cmux + a11y-audit.js** | 실시간 DOM 변화·초점·aria-live | 사람 판단 필요 |
-| 수동 | NVDA/VoiceOver/센스리더 | **나머지 60~70%** | 자동화 불가 |
+| 수동 | NVDA/VoiceOver/센스리더 (`screen-readers.md`) | **나머지 60~70%** | 자동화 불가 |
 
 ## CI 체크리스트
 - [ ] `npm run lint`에 eslint-a11y 포함, PR에서 실패 시 차단
 - [ ] 주요 컴포넌트 vitest-axe 테스트
-- [ ] 핵심 라우트 axe-playwright E2E + 모달/라우팅 초점 시나리오
+- [ ] 핵심 라우트 axe-playwright E2E + 모달/라우팅 초점 시나리오(`focus-management.md`)
 - [ ] Lighthouse a11y ≥ 0.95 게이트
-- [ ] 머지 전 cmux/스크린리더 수동 점검 1회(자동이 못 잡는 부분)
+- [ ] 머지 전 cmux + 스크린리더 청취(`screen-readers.md`) 수동 점검 1회(자동이 못 잡는 부분)

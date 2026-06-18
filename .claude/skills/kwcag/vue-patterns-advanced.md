@@ -234,5 +234,7 @@ function sortBy(k) { asc.value = sortKey.value === k ? !asc.value : true; sortKe
 
 ## 공통 점검
 - 모든 위젯: 키보드만으로 완전 조작(↑↓←→ Enter Esc Tab), 보이는 focus 표시 유지.
+  복합 위젯(탭·메뉴·툴바)의 **로빙 탭인덱스/`aria-activedescendant`** 구현은 `focus-management.md` §6.
 - 상태 변화(열림/선택/정렬/로딩)는 `aria-expanded/selected/sort/current/busy` 또는 라이브 영역으로 안내.
+  라이브 리전이 스크린리더별로 어떻게 읽히는지(polite/assertive 차이·지원 편차)는 `screen-readers.md` §5.
 - 아이콘/화살표 등 장식 요소는 `aria-hidden="true"`, 의미는 텍스트나 `aria-label`로.

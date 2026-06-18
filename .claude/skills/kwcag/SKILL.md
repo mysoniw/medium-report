@@ -11,7 +11,7 @@ when_to_use: >-
   사용자가 접근성·a11y·KWCAG·WCAG·웹 접근성 인증·WA 마크·스크린리더·시각장애인·
   접근성 점검/감리를 언급하거나, Vue·Spring Boot로 접근성 준수 사이트를 만들거나
   점검·인증 준비할 때.
-argument-hint: "[개요|체크리스트|컴포넌트|라우팅|백엔드|모바일|테스트|인증|점검 <URL>]"
+argument-hint: "[개요|체크리스트|컴포넌트|초점|스크린리더|라우팅|백엔드|모바일|테스트|인증|점검 <URL>]"
 ---
 
 # KWCAG 2.2 웹·모바일 접근성 스킬
@@ -49,6 +49,8 @@ URL이 주어지면 모드 B(점검)로, 빈 요청이면 이 개요와 §2 워�
 | [`checklist.md`](./checklist.md) | KWCAG 2.2 33개 검사항목 + WCAG 2.2 SC 매핑 + 시각장애 우선순위 |
 | [`vue-patterns.md`](./vue-patterns.md) | 접근 가능한 Vue 컴포넌트(모달·폼·메뉴·탭) 완성 코드 |
 | [`vue-patterns-advanced.md`](./vue-patterns-advanced.md) | 심화 위젯(토스트·콤보박스·아코디언·정렬테이블·페이지네이션·로딩·빵부스러기) |
+| [`focus-management.md`](./focus-management.md) | **초점 심화** — 표시·순서·트랩·복귀·로빙탭인덱스·가림방지·디버깅 |
+| [`screen-readers.md`](./screen-readers.md) | **스크린리더 심화** — NVDA·VoiceOver·TalkBack·센스리더, 브라우즈모드·이름계산·모바일제스처 |
 | [`router-focus.md`](./router-focus.md) | SPA 라우팅 초점 관리, 페이지 제목, `aria-live` 알림 셋업 |
 | [`backend-spring.md`](./backend-spring.md) | Spring Boot 백엔드 — DTO alt 필드·검증오류·i18n·세션·인증 코드 |
 | [`mobile-responsive.md`](./mobile-responsive.md) | 모바일/터치/줌·리플로우/모션·고대비/PWA/MA 인증 |
@@ -61,17 +63,17 @@ URL이 주어지면 모드 B(점검)로, 빈 요청이면 이 개요와 §2 워�
 
 ### 모드 A — 신규 구축 (설계부터 접근성 내장)
 1. `vue-patterns.md` + `vue-patterns-advanced.md` 패턴으로 UI를 만든다(시맨틱 HTML 우선, ARIA는 보조).
-2. `router-focus.md`로 라우팅 초점·`aria-live`·`lang`·문서 제목을 셋업한다.
+2. `focus-management.md`로 초점(표시·트랩·복귀·로빙)을, `router-focus.md`로 라우팅 초점·`aria-live`·`lang`·제목을 셋업한다.
 3. 백엔드는 `backend-spring.md`, 모바일/반응형/모션은 `mobile-responsive.md`를 따른다.
 4. `testing-ci.md`로 eslint-a11y + vitest-axe + axe-playwright + Lighthouse CI 게이트를 건다.
-5. 머지 전 §3 cmux 실시간 감리 + `manual-testing.md` 수동 점검으로 동적·맥락 항목을 검증한다.
+5. 머지 전 §3 cmux 실시간 감리 + `manual-testing.md` 수동 점검 + `screen-readers.md` 청취 테스트로 동적·맥락 항목을 검증한다.
 
 ### 모드 B — 기존 사이트 감리/인증 준비
 1. `checklist.md` 33항목을 페이지별로 평가표에 매핑한다.
 2. **자동 검출 가능 항목**: axe-core / Lighthouse / `scripts/a11y-audit.js`로 1차 스캔.
 3. **자동 검출 불가 항목**: §3 cmux 플레이북으로 DOM 변화를 실시간 추적하며 수동 검증.
 4. 위반을 KWCAG 항목번호 + WCAG SC + 심각도로 리포트한다.
-5. 스크린리더 실청취(키보드만으로 전체 플로우) 결과를 첨부한다.
+5. `focus-management.md`(초점 흐름) + `screen-readers.md`(NVDA/VoiceOver/TalkBack 실청취) 결과를 첨부한다.
 
 ## 3. cmux 브라우저 실시간 DOM 모니터링 (자동화 보완)
 
@@ -172,7 +174,9 @@ cmux 스킬로 내장 브라우저를 제어하면 **DevTools 기능을 a11y 검
 3. 라벨 미연결 폼(`<label for>` / `aria-label` 없음) — **레이블 제공**
 4. 명도 대비 4.5:1 미달 — **명도 대비**
 5. SPA 라우팅 후 초점·페이지 제목 미갱신 — `router-focus.md`로 해결
-6. 모달에서 포커스 트랩 미구현 / 닫을 때 트리거로 초점 복귀 안 됨
-7. focus ring(`outline`) 제거 — **초점 이동과 표시**
+6. 모달에서 포커스 트랩 미구현 / 닫을 때 트리거로 초점 복귀 안 됨 — `focus-management.md` §4~5
+7. focus ring(`outline`) 제거 — **초점 이동과 표시**, `focus-management.md` §1
+8. 스크린리더에서 빈 이름·중복 읽기·위젯 조작 불가 — `screen-readers.md` §8
 
-자세한 코드/항목은 위 레퍼런스 파일 참조.
+자세한 코드/항목은 위 레퍼런스 파일 참조. **초점 전반은 `focus-management.md`,
+스크린리더 전반은 `screen-readers.md`** 가 단일 진실 소스(SSOT)다.

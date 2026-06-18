@@ -17,6 +17,10 @@ Vue 3 `<script setup>` 기준. **원칙: 시맨틱 HTML 우선, ARIA는 보조.*
 KWCAG #11(초점) · #33(웹앱 접근성). 핵심: ① 열 때 모달로 초점 이동 ② 트랩(Tab 순환)
 ③ Esc 닫기 ④ 닫을 때 **트리거 버튼으로 초점 복귀** ⑤ 배경 `aria-hidden`/inert.
 
+> 아래는 단일 컴포넌트 구현. **재사용 컴포저블**(`useFocusTrap`/`useFocusReturn`)과 트랩·복귀의
+> 원리·엣지케이스는 `focus-management.md` §4~5를, 모달이 스크린리더에 어떻게 읽히는지는
+> `screen-readers.md` §8을 참고.
+
 ```vue
 <!-- AccessibleModal.vue -->
 <script setup>
@@ -233,7 +237,8 @@ function onKey(e) {
 
 ## 5. 공통 규칙 (전 컴포넌트)
 - **아이콘 버튼**: 텍스트 없으면 `aria-label` 필수. 장식 아이콘은 `aria-hidden="true"`.
-- **focus ring 제거 금지**: `:focus-visible`로 명확한 표시 유지.
+  (접근 가능한 이름이 어떻게 계산되는지 → `screen-readers.md` §4)
+- **focus ring 제거 금지**: `:focus-visible`로 명확한 표시 유지. (초점 표시 심화 → `focus-management.md` §1)
   ```css
   :focus-visible { outline: 3px solid #1a73e8; outline-offset: 2px; }
   ```

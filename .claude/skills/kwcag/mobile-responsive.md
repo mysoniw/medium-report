@@ -90,9 +90,11 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 ## 8. PWA / 모바일 웹 추가 고려
 
-- 설치형 PWA도 `<html lang>`, 랜드마크, 초점 관리 동일 적용.
+- 설치형 PWA도 `<html lang>`, 랜드마크, 초점 관리(→ `focus-management.md`) 동일 적용.
 - 시스템 글꼴 크기(동적 타입) 반영: `rem` 기반 + `meta viewport` 확대 허용.
 - 하단 고정 바/노치 안전영역: `env(safe-area-inset-*)` 사용하되 터치타깃 확보.
+- **모바일 스크린리더**(VoiceOver/TalkBack)의 제스처 탐색·스와이프 순서·제스처 충돌은
+  `screen-readers.md` §6에서 상세히 다룬다 — 실기기 청취 필수.
 
 ---
 
