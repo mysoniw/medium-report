@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <!-- 확대/축소 잠그지 않음 (KWCAG #21 / WCAG 1.4.4 Resize Text) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026 풋볼 트레이닝 캠프 — 긴 이미지 분할 + 대체텍스트 처리 예시</title>
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:#e9efe9; color:#1a1a1a;
+      font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+      line-height:1.6;
+    }
+    /* KWCAG #17 본문 바로가기 스킵 링크 */
+    .skip{position:absolute; left:-9999px; top:0; z-index:10;
+      background:#000; color:#fff; padding:10px 16px}
+    .skip:focus{left:0}
+
+    .intro{max-width:720px; margin:0 auto; padding:16px}
+    .intro h1{font-size:1.25rem; margin:.2em 0}
+    .intro p{font-size:.95rem; color:#333; margin:.4em 0}
+    .intro code{background:#dde7dd; padding:1px 6px; border-radius:5px}
+
+    /* 잘린 조각을 이어 붙여 원본 이미지를 재현 — 틈/여백 없이 세로로 스택 */
+    .flyer{max-width:720px; margin:0 auto; background:#fff;
+      box-shadow:0 2px 14px rgba(0,0,0,.12)}
+    .flyer img{display:block; width:100%; height:auto}   /* 조각 사이 빈틈 제거 */
+
+    /* 이미지로 된 버튼(스마트 예약) 위에 올리는 '진짜' 링크 — 키보드/스크린리더 조작 가능 */
+    .slice{position:relative}
+    .slice .overlay-link{
+      position:absolute; left:6%; right:6%; bottom:6%; height:64px;
+      display:block; border-radius:40px;
+      /* 시각적으로는 디자인된 버튼이 보이므로 투명 처리, 접근성 정보는 텍스트로 제공 */
+    }
+    .slice .overlay-link:focus-visible{
+      outline:3px solid #0b57d0; outline-offset:2px;
+    }
+    .slice .overlay-link span{   /* 화면엔 안 보이지만 보조기술이 읽는 이름 */
+      position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);
+    }
+
+    footer{max-width:720px; margin:0 auto; padding:16px; font-size:.85rem; color:#555}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#flyer">본문 바로가기</a>
+
+  <div class="intro">
+    <h1>2026 풋볼 트레이닝 캠프</h1>
+    <p>원본 홍보 이미지(<code>b0b69dc….jpg</code>, 720×7700)를 의미 단위 <strong>12조각으로 잘라</strong>
+       세로로 이어 붙인 페이지입니다. 화면에는 원본과 똑같이 보이지만,
+       각 조각마다 그 안의 글자 내용을 <strong>대체텍스트(alt)</strong>로 넣어
+       스크린리더가 읽을 수 있도록 처리했습니다. (KWCAG #1 / WCAG 1.1.1)</p>
+  </div>
+
+  <!-- 잘린 조각을 순서대로 스택 → 원본 긴 이미지를 그대로 재현 -->
+  <div class="flyer" id="flyer">
+
+    <img src="sections/01-header.jpg"
+      alt="2026 풋볼 트레이닝 캠프. 기간 2026년 6월 4일부터 6월 30일까지. 운영 시간 11시부터 19시까지. 장소 풋볼 앤 타코 축제컨텐츠 존. 대기 현황에 따라 입장은 조기 마감될 수 있습니다.">
+
+    <img src="sections/02-mission-intro.jpg"
+      alt="미션 게임 존. 풋볼 트레이닝 캠프 입소를 환영합니다. 운동 신경을 발휘해 점수를 획득해 보세요.">
+
+    <img src="sections/03-game-target.jpg"
+      alt="미션 게임 타겟슛. 공을 차서 높은 점수를 노리자.">
+
+    <img src="sections/04-game-speed.jpg"
+      alt="미션 게임 스피드 터치. 순간 반응 속도로 골문을 지켜라.">
+
+    <img src="sections/05-game-power.jpg"
+      alt="미션 게임 파워 대시. 빠르게 달려 스피드 게이지를 가득 채우자.">
+
+    <img src="sections/06-game-bingo.jpg"
+      alt="미션 게임 빙고 챌린지. 공을 차서 빙고를 완성하자.">
+
+    <img src="sections/07-mission-notice.jpg"
+      alt="미션 게임 존 안내. 본 콘텐츠는 무료로 체험 가능하며 현장 상황에 따라 대기 시간이 발생할 수 있습니다. 기상 악화 및 현장 상황에 따라 운영 시간이 변경되거나 조기 종료될 수 있습니다.">
+
+    <img src="sections/08-event-header.jpg"
+      alt="체험 이벤트. 끊임없는 즐길 거리. 이벤트 1 프리스타일 축구 클래스.">
+
+    <!-- 이 조각에는 '스마트 예약 바로가기' 버튼이 이미지로 박혀 있어,
+         보이지 않는 실제 링크를 버튼 위치에 겹쳐 키보드·스크린리더로 누를 수 있게 처리 -->
+    <div class="slice">
+      <img src="sections/09-event1-class.jpg"
+        alt="이벤트 1 프리스타일 축구 클래스. 쉽고 재미있게 체험하며 따라 해 보는 참여형 클래스. 이용 대상 초등학생. 진행 일정 매주 금요일과 토요일 13시, 15시. 이용 가격 1인 1만 원, 참여 후 전액 솜 포인트 페이백.">
+      <a class="overlay-link" href="#" target="_blank" rel="noopener">
+        <span>스마트 예약 페이지로 이동 (새 창 열림)</span>
+      </a>
+    </div>
+
+    <img src="sections/10-instructor.jpg"
+      alt="강사 라인업. 프리스타일 축구 퍼포먼스팀 라이캣 크루, 박진석 선수.">
+
+    <img src="sections/11-event2-training.jpg"
+      alt="이벤트 2 코치와 함께하는 고강도 훈련 시간. 리프팅, 드리블, 장애물 통과, 대한민국 함성 지르기까지. 코치를 만나 가속 성장을 느껴보세요. 진행 일자 매주 수요일부터 일요일까지. 진행 시간 11시, 12시, 14시, 15시, 16시, 17시. 기상 악화 및 현장 상황에 따라 운영이 변경되거나 취소될 수 있습니다.">
+
+    <img src="sections/12-training-center.jpg"
+      alt="트레이닝 센터. 풋볼 트레이닝 캠프 수료 시 주어지는 다양한 경품 획득의 기회. 경품은 에버랜드 잭 타투 스티커, 승리 기원 응원 도구, 소장 각인 풋볼 아이템, 아마존 익스프레스 캐릭터 인형. 자세한 사항은 풋볼 트레이닝 캠프 페이지에서 확인 가능합니다. 경품은 준비 수량 소진 시 조기 종료될 수 있습니다.">
+
+  </div>
+
+  <footer>
+    <p>※ 이미지에 박힌 글자는 alt로 처리했지만, WCAG 1.4.5는 가능하면 글자를 <strong>실제 텍스트</strong>로
+       제공할 것을 권합니다. 위 alt 내용은 원본 이미지에서 전사한 것으로, 게시 전 공식 원문과 대조해 주세요.</p>
+  </footer>
+</body>
+</html>
